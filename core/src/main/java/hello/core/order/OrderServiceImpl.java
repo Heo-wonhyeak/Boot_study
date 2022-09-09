@@ -6,10 +6,13 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
     // final : 반드시 값이 있어야한다!!
@@ -17,13 +20,14 @@ public class OrderServiceImpl implements OrderService{
     private final  DiscountPolicy discountPolicy;
     // 생성자 의존 : 불변&필수 일때 주로 사용
     // 생성자가 하나일때는 @Autowired 생략 가능
+
+    //lombok 의 @RequiredArgsConstructor 가 자동으로 만들어줌!! - 생성자가 어쩌다 꼭 필요할 때만 작성
     @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         System.out.println("1. OrderServiceImpl.OrderServiceImpl");
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
-
 /*
     // 수정자 주임 : setter 사용
     private MemberRepository memberRepository;
@@ -37,7 +41,7 @@ public class OrderServiceImpl implements OrderService{
     public void setDiscountPolicy(DiscountPolicy discountPolicy) {
         this.discountPolicy = discountPolicy;
     }
-*/
+    */
 /*
 
     // 필드 주입 : private 일때 가능! -> 코드는 간결하나 외부엫서 변경이 불가능하다!! 즉, 사용하지말자! (테스트 코드에선 사용가능)
