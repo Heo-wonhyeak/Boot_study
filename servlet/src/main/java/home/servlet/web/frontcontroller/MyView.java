@@ -13,6 +13,7 @@ public class MyView {
         this.viewPath = viewPath;
     }
 
+    //랜더링할 클래스
     public void render(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
         dispatcher.forward(request,response);
