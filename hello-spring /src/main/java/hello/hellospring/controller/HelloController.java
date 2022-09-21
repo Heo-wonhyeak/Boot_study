@@ -1,12 +1,15 @@
 package hello.hellospring.controller;
 
 import hello.hellospring.service.TestService;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @CrossOrigin(value = "*")
 @RequestMapping(value = "/api/test")
 @RestController
@@ -42,19 +45,16 @@ public class HelloController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<Object> getTest(Model model) {
+    public ResponseEntity<Object> getTest() {
+        log.info("123");
+        Hello hello = new Hello();
+        hello.setName("12222");
+        log.info(">>" + hello.getName());
         return ResponseEntity.ok(testService.getTest());
     }
 
+    @Data
     static class Hello {
         private String name;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 }
