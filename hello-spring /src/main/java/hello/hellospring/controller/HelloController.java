@@ -1,5 +1,8 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/test")
 @RestController
 public class HelloController {
+
+    @Autowired
+    private TestService testService;
 
     @GetMapping("/hello")
     public String hello(Model model) {
@@ -33,6 +39,11 @@ public class HelloController {
         Hello hello = new Hello();
         hello.setName(name);
         return hello;
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Object> getTest(Model model) {
+        return ResponseEntity.ok(testService.getTest());
     }
 
     static class Hello {
