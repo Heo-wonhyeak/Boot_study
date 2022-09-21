@@ -21,6 +21,10 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	implementation 'mysql:mysql-connector-java:8.0.26'
+
+	implementation 'io.springfox:springfox-swagger-ui:2.6.1'
+	implementation 'io.springfox:springfox-swagger2:2.6.1'
 }
 
 tasks.named('test') {
