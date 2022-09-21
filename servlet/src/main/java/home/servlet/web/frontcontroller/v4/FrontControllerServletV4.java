@@ -22,6 +22,7 @@ import java.util.Map;
 @WebServlet(name="frontControllerServletV4",urlPatterns = "/front-controller/v4/*")
 public class FrontControllerServletV4 extends HttpServlet {
 
+    // 버전을 동일한 버전만 사용가능!
     private Map<String, ControllerV4> controllerMap = new HashMap<>();
 
     public FrontControllerServletV4() {
