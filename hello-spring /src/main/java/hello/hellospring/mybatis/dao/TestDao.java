@@ -10,4 +10,6 @@ public interface TestDao {
 
     @Select("SELECT variable FROM sys.sys_config")
     List<String> getTest();
+
+
 }

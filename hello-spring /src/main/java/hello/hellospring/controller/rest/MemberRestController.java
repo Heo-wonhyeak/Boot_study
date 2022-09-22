@@ -1,11 +1,13 @@
 package hello.hellospring.controller.rest;
 
+import hello.hellospring.logic.MemberLogic;
+import hello.hellospring.req.model.TestReqModel;
+import hello.hellospring.res.model.ApiResultObjectDto;
+import hello.hellospring.res.model.TestResModel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @CrossOrigin(value = "*")
@@ -13,8 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MemberRestController {
 
-    @GetMapping(value = "/list")
-    public ResponseEntity<Object> getList() {
-        return null;
+    @Autowired
+    private MemberLogic memberLogic;
+
+    @GetMapping(value = "/list/all")
+    public ResponseEntity<ApiResultObjectDto> getAllMemberList() {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.getAllHugoMemberLogic();
+        return ResponseEntity.ok(apiResultObjectDto);
     }
 }
