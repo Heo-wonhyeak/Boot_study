@@ -39,7 +39,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .produces(getProduceContentTypes())
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("hello.hellospring.controller"))
+                .apis(RequestHandlerSelectors.basePackage("hello.hellospring.controller.rest"))
                 //.paths(PathSelectors.ant("/api/**"))
                 .build();
     }
