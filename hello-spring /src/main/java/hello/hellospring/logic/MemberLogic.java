@@ -80,7 +80,9 @@ public class MemberLogic {
                 hugoUserInfoModel.setInterest(reqModel.getInterest());
 
                 try {
+                    //memberService.saveHugoUserInfo(hugoUserInfoModel);
                     memberService.saveHugoUserInfo(hugoUserInfoModel);
+                    log.error("key >> " + hugoUserInfoModel.getIdx());
                 } catch (Exception e) {
                     log.error("error >> "+ e.toString());
                 }

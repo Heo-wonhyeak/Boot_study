@@ -18,6 +18,7 @@ public interface HugoUserInfoDao {
             " (id, pwd, name, nick_name, email, birth_day, gender, call_num, interest) " +
             " VALUES " +
             "( #{id}, #{pwd}, #{name}, #{nickName}, #{email}, #{birthDay}, #{gender}, #{callNum}, #{interest} )" )
+    @Options(useGeneratedKeys = true, keyProperty = "idx", keyColumn = "idx")
     void saveHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
 
 }

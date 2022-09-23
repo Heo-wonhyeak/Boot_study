@@ -8,6 +8,8 @@ import java.util.Date;
 @Data
 public class HugoUserInfoModel {
 
+    private Long idx;
+
     private String id;
 
     private String pwd;
