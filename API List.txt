@@ -1,53 +1,53 @@
 API
 
-1. 로그인 API
+1. 로그인 API ("/login")
 
  MemberRestController
 
-2. 회원 가입 API
+2. 회원 가입 API ("/signUp")
 
- MemberFormRestController
+ MemberRestController
 
-3. 회원 정보 API
+3. 회원 정보 API ("/info")
 
- MemberInfoRestController
+ MemberRestController
 
-4. 회원 탈퇴 API
+4. 회원 탈퇴 API ("/resign")
 
- MemberResignRestController
+ MemberRestController
 
-5. 게시글 게시판 리스트 API
+5. 게시글 게시판 리스트 API ("/lists")
 
  BoardRestController
 
-6. 게시글 글쓰기 API
+6. 게시글 글쓰기 API ("/write")
 
- BoardWriteRestController
+ BoardRestController
 
-7. 게시글 상세보기 API
+7. 게시글 상세보기 API ("/detail")
 
- BoardDetailRestController
+ BoardRestController
 
-8. 게시글 수정 API
+8. 게시글 수정 API ("/modify")
 
- BoardModifyRestController
+ BoardRestController
 
-9. 게시글 삭제 API
+9. 게시글 삭제 API ("/delete")
  
- BoardDeleteRestController
+ BoardRestController
 
-10. 댓글 쓰기 API
+10. 댓글 쓰기 API ("/reply/write")
 
- BoardReplyRestController
+ BoardRestController
 
-11. 댓글 수정 API
+11. 댓글 수정 API ("/reply/modify")
 
- BoardReplyModifyRestController
+ BoardRestController
 
-12. 댓글 삭제 API
+12. 댓글 삭제 API ("/reply/delete")
 
- BoardReplyDeleteRestController
+ BoardRestController
 
-13. 댓글 신고 APi
+13. 댓글 신고 API ("/reply/declaration")
 
- BoardReplyDeclarationRestController
+ BoardRestController
