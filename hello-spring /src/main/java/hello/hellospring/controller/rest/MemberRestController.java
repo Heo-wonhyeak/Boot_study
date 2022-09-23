@@ -1,6 +1,7 @@
 package hello.hellospring.controller.rest;
 
 import hello.hellospring.logic.MemberLogic;
+import hello.hellospring.req.model.HugoUserSaveReqModel;
 import hello.hellospring.req.model.TestReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.res.model.TestResModel;
@@ -21,6 +22,12 @@ public class MemberRestController {
     @GetMapping(value = "/list/all")
     public ResponseEntity<ApiResultObjectDto> getAllMemberList() {
         ApiResultObjectDto apiResultObjectDto = memberLogic.getAllHugoMemberLogic();
+        return ResponseEntity.ok(apiResultObjectDto);
+    }
+
+    @PostMapping(value = "/save")
+    public ResponseEntity<ApiResultObjectDto> saveMember(@RequestBody HugoUserSaveReqModel reqModel) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.saveHugoUserLogic(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 }
