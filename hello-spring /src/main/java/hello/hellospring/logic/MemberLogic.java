@@ -40,22 +40,33 @@ public class MemberLogic {
                 .build();
     }
 
+    /**
+     * 회원가입 비지니스 로직
+     * @param reqModel
+     * @return
+     */
     @Transactional
     public ApiResultObjectDto saveHugoUserLogic(HugoUserSaveReqModel reqModel) {
+        //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
-
+        //리턴해줄 object map 선언
         Map<String, String>resultMap = new HashMap<>();
 
-        if ("".equals(reqModel.getId())) {
+        //회원 아이디가 비웠으면 551번 에러처리
+        if ( "".equals(reqModel.getId()) ) {
             resultCode = 551;
         } else {
+            //회원 아이디가 있으면 회원정보 저장하기 시작
 
+            //존재하는 아이디가 있는지 개수 확인
             int userCount = memberService.findCountHugoUserById(reqModel.getId());
 
+            //아이디가 존재하면 에러 코드 값 주입
             if (userCount > 0) {
                 resultCode = 552;
                 log.error("이미 존재하는 아이디 입니다. ID :: " + reqModel.getId());
             }
+            //아이디가 존재하지 않으므로 저장 로직 사직
             if (userCount == 0) {
                 HugoUserInfoModel hugoUserInfoModel = new HugoUserInfoModel();
                 hugoUserInfoModel.setId(reqModel.getId());

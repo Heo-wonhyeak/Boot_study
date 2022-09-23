@@ -29,10 +29,21 @@ public class MemberService {
         return 1;
     }
 
+    public Boolean isExitsHugoUserById(String id) {
+        boolean bl = false;
+        int cnt = hugoUserInfoDao.getCountHugoUserInfoById(id);
+        if (cnt > 0) {
+            bl = true;
+        }
+        return bl;
+    }
+
     @Transactional
     public void saveHugoUserInfo(HugoUserInfoModel hugoUserInfoModel) {
+        //ID가 있을때만 저장 쿼리 수행
         if (!"".equals(hugoUserInfoModel.getId())) {
             hugoUserInfoDao.saveHugoUserInfo(hugoUserInfoModel);
         }
     }
+
 }

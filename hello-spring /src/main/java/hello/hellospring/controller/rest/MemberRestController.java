@@ -25,7 +25,12 @@ public class MemberRestController {
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
-    @PostMapping(value = "/save")
+    /**
+     * 회원가입 API
+     * @param reqModel
+     * @return
+     */
+    @PostMapping(value = "/sign-up")
     public ResponseEntity<ApiResultObjectDto> saveMember(@RequestBody HugoUserSaveReqModel reqModel) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.saveHugoUserLogic(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
