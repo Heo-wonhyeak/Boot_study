@@ -1,5 +1,7 @@
 package hello.hellospring.controller.rest;
 
+import hello.hellospring.enums.ErrorCodeEnum;
+import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.logic.MemberLogic;
 import hello.hellospring.req.model.HugoUserSaveReqModel;
 import hello.hellospring.req.model.TestReqModel;
