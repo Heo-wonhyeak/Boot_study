@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Slf4j
 @CrossOrigin(value = "*")
 @RequestMapping(value = "/api/member")
@@ -33,7 +35,7 @@ public class MemberRestController {
      * @return
      */
     @PostMapping(value = "/sign-up")
-    public ResponseEntity<ApiResultObjectDto> saveMember(@RequestBody HugoUserSaveReqModel reqModel) {
+    public ResponseEntity<ApiResultObjectDto> saveMember(@Valid @RequestBody HugoUserSaveReqModel reqModel) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.saveHugoUserLogic(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }

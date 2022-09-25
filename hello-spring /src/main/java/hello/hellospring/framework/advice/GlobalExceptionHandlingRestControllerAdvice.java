@@ -33,25 +33,15 @@ public class GlobalExceptionHandlingRestControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     public BaseWrapResponse handleException(HttpServletRequest request, HttpServletResponse response, Exception ex) {
-        //HandlerMethod handlerMethod = (HandlerMethod) request.getAttribute(CustomExceptionHandlerExceptionResolver.ORIGINAL_OCCURRED_EXCEPTION_HANDLER_ATTR);
-        //ResponseWrapExclude methodAnnotation = handlerMethod.getMethodAnnotation(ResponseWrapExclude.class);
-
         log.error(ex.getMessage(), ex);
-
         BaseWrapResponse bwResponse = makeErrorResponse(ex);
-
         return bwResponse;
     }
 
     @ExceptionHandler(HttpStatusCodeException.class)
     public BaseWrapResponse handleException(HttpServletRequest request, HttpServletResponse response, HttpStatusCodeException ex) {
-        //HandlerMethod handlerMethod = (HandlerMethod) request.getAttribute(CustomExceptionHandlerExceptionResolver.ORIGINAL_OCCURRED_EXCEPTION_HANDLER_ATTR);
-        //ResponseWrapExclude methodAnnotation = handlerMethod.getMethodAnnotation(ResponseWrapExclude.class);
-
         log.error(ex.getMessage(), ex);
-
         BaseWrapResponse bwResponse = makeErrorResponse(ex);
-
         return bwResponse;
     }
 

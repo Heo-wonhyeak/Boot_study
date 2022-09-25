@@ -35,8 +35,11 @@ public class MemberLogic {
         List<HugoUserInfoModel> userInfoModelList = memberService.findHugoUserList();
         // 리스트가 없으면 예외처리
         if (userInfoModelList.size() == 0 || userInfoModelList.isEmpty()) {
-            resultCode = 550;
-        } 
+            //throw new BaseException(ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST.msg(), ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST);
+            resultCode = ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST.code();
+        } else {
+            throw new BaseException(ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST.msg(), ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST);
+        }
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(userInfoModelList)
