@@ -124,3 +124,6 @@ CHANGE COLUMN `event_reply_idx` `board_reply_idx` BIGINT NULL DEFAULT NULL ;
 
 ALTER TABLE `dev`.`HUGO_BOARD`
 CHANGE COLUMN `event_idx` `board_idx` BIGINT NOT NULL ;
+
+ALTER TABLE `dev`.`HUGO_USER_INFO`
+CHANGE COLUMN `birth_dat` `birth_day` DATE NOT NULL ;
