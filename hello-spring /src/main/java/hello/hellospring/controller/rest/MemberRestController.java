@@ -1,5 +1,7 @@
 package hello.hellospring.controller.rest;
 
+import hello.hellospring.enums.ErrorCodeEnum;
+import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.logic.MemberLogic;
 import hello.hellospring.req.model.HugoUserSaveReqModel;
 import hello.hellospring.req.model.TestReqModel;
@@ -9,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @CrossOrigin(value = "*")
@@ -31,7 +35,7 @@ public class MemberRestController {
      * @return
      */
     @PostMapping(value = "/sign-up")
-    public ResponseEntity<ApiResultObjectDto> saveMember(@RequestBody HugoUserSaveReqModel reqModel) {
+    public ResponseEntity<ApiResultObjectDto> saveMember(@Valid @RequestBody HugoUserSaveReqModel reqModel) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.saveHugoUserLogic(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }
