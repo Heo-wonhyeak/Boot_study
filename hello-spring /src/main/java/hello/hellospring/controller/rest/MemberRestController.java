@@ -47,36 +47,62 @@ public class MemberRestController {
     /**
      * 로그인 API
      * @param reqModel
-     * @param request
      * @return
      */
     @PostMapping(value = "/login")
-    public ResponseEntity<ApiResultObjectDto> loginMember(@Valid @RequestBody HugoLoginReqModel reqModel, HttpServletRequest request) {
-        ApiResultObjectDto apiResultObjectDto = memberLogic.loginByIdLogic(reqModel, request);
+    public ResponseEntity<ApiResultObjectDto> loginMember(@Valid @RequestBody HugoLoginReqModel reqModel) {
+        //ApiResultObjectDto apiResultObjectDto = memberLogic.loginByIdLogic(reqModel, request);
+        ApiResultObjectDto apiResultObjectDto = memberLogic.loginLogic(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
+    /**
+     * 회원정보 API
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/info/{id}")
-    public ResponseEntity<ApiResultObjectDto> getMemberInfo(@Valid @RequestParam String id) {
+    public ResponseEntity<ApiResultObjectDto> getMemberInfo(@RequestParam String id) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.getHugoMemberInfo(id);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
+    /**
+     * 회원정보 수정 API
+     * @param id
+     * @param pwd
+     * @return
+     */
     @PostMapping(value = "/info/{id}")
-    public ResponseEntity<ApiResultObjectDto> updateMemberInfo(@Valid @RequestParam String id,@RequestParam String pwd) {
-
+    public ResponseEntity<ApiResultObjectDto> updateMemberInfo(@RequestParam String id, @RequestParam String pwd) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.updateHugoMemberInfo(id, pwd);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
-    @PostMapping(value = "/resign/{id}")
-    public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@Valid @RequestParam String id,@RequestParam String pwd, HttpServletRequest request) {
-        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id,pwd,request);
+    /**
+     * 회원 탈퇴 API
+     * @param id
+     * @param pwd
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "/resign")
+    public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@RequestParam(value = "id") String id, @RequestParam(value = "pwd") String pwd, HttpServletRequest request) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id, pwd, request);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
+    /**
+     * TODO 회원 비밀번호 검증 API
+     * @param id
+     * @param request
+     * @return
+     */
+
+
+    @Deprecated
     @GetMapping(value = "/logout/{id}")
-    public ResponseEntity<ApiResultObjectDto> logoutMember(@Valid @RequestParam String id ,HttpServletRequest request) {
+    public ResponseEntity<ApiResultObjectDto> logoutMember(@RequestParam String id ,HttpServletRequest request) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.logoutByIdLogic(id, request);
         return ResponseEntity.ok(apiResultObjectDto);
     }

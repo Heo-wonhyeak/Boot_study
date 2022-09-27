@@ -3,6 +3,7 @@ package hello.hellospring.service;
 import hello.hellospring.mybatis.dao.HugoUserInfoDao;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import hello.hellospring.req.model.HugoLoginReqModel;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +66,13 @@ public class MemberService {
         } else {
             return null;
         }
+    }
+
+    public HugoUserInfoModel findHugoUserByIdAndPassword(String id, String password) {
+        if (StringUtils.isNotEmpty(id) && StringUtils.isNotEmpty(password)) {
+            return hugoUserInfoDao.loginByIdAndPassword(id, password);
+        }
+        return null;
     }
 
     public HugoUserInfoModel findHugoMemberInfoById(String id) {

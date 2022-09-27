@@ -16,14 +16,17 @@ API
 
  MemberRestController
 
- 3-1. 회원 정보 수정 API ("/info/{id}") - method : POST
+ 3-1. 회원 정보 수정 API ("/info/{id}") - method : POST : 회원정보 조회 > 비밀번호 검증 > 회원정보 수정
+ 3-2. 비밀번호 검증 API
 
  MemberRestController
 
 4. 회원 탈퇴 API ("/resign/{id}") - method : POST
 
  MemberRestController
- ======================= 회원 로직 9월 27일 밤까지 =====================================
+
+
+ ======================= 회원 로직 9월 28일 밤까지 =====================================
 
 5. 게시글 게시판 리스트 API ("/lists") - method : POST
 

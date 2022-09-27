@@ -146,6 +146,32 @@ public class MemberLogic {
                 .build();
     }
 
+    public ApiResultObjectDto loginLogic(HugoLoginReqModel reqModel) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, String>resultMap = new HashMap<>();
+
+        HugoUserInfoModel findUser = memberService.findHugoUserByIdAndPassword(reqModel.getId(), reqModel.getPwd());
+
+        //회원정보가 없거나, 비밀번호가 틀렸을때
+        if (findUser == null) {
+            log.error("회원정보가 없습니다. :: " + reqModel.getId());
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_LOGIN.code();
+        }
+        //정상적으로 회원정보가 있을때
+        if (findUser != null) {
+            log.debug("findUser {}", findUser.toString());
+            //리턴할 사용자 닉네임 값 주입
+            resultMap.put("NickName", findUser.getNickName());
+        }
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    @Deprecated
     public ApiResultObjectDto logoutByIdLogic(String id,HttpServletRequest request) {
         //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
@@ -154,6 +180,9 @@ public class MemberLogic {
         HttpSession session = request.getSession();
         isLogon = (Boolean)session.getAttribute("isLogon");
 
+        if (isLogon == null) {
+            log.info("=================== error =======================");
+        }
         if(isLogon) {
             session.removeAttribute("loginMember");
             session.removeAttribute("isLogon");
@@ -211,7 +240,7 @@ public class MemberLogic {
                 .build();
     }
 
-    public ApiResultObjectDto deleteHugoUserInfo(String id ,String pwd, HttpServletRequest request) {
+    public ApiResultObjectDto deleteHugoUserInfo(String id, String pwd, HttpServletRequest request) {
         //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
         //리턴해줄 object map 선언
