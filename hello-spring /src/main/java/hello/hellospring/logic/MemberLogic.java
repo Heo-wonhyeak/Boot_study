@@ -129,7 +129,7 @@ public class MemberLogic {
                 // 세션에 요청 유저 정보 저장
                 session.setAttribute("loginMember",reqUser);
                 // 세션에 로그인 여부 저장
-                session.setAttribute("isLogOn",true);
+                session.setAttribute("isLogon",true);
                 // hashMap 에 nickName 저장 - 로그인 결과 뿌려줄때 사용
                 resultMap.put("nickName", reqUser.getNickName());
             } else {
@@ -145,6 +145,28 @@ public class MemberLogic {
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(resultMap)
+                .build();
+    }
+
+    public ApiResultObjectDto logoutByIdLogic(String id,HttpServletRequest request) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        Boolean isLogon = false;
+
+        HttpSession session = request.getSession();
+        isLogon = (Boolean)session.getAttribute("isLogon");
+
+        if(isLogon) {
+            session.removeAttribute("loginMember");
+            session.removeAttribute("isLogon");
+        } else {
+            resultCode = 599;
+            log.error("logon 되어있지 않습니다");
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(id)
                 .build();
     }
 
@@ -217,4 +239,6 @@ public class MemberLogic {
                 .result(resultMap)
                 .build();
     }
+
+
 }

@@ -74,4 +74,10 @@ public class MemberRestController {
         ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id,pwd,request);
         return ResponseEntity.ok(apiResultObjectDto);
     }
+
+    @GetMapping(value = "/logout/{id}")
+    public ResponseEntity<ApiResultObjectDto> logoutMember(@Valid @RequestParam String id ,HttpServletRequest request) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.logoutByIdLogic(id, request);
+        return ResponseEntity.ok(apiResultObjectDto);
+    }
 }

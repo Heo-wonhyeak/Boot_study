@@ -1,6 +1,10 @@
 API
 
-1. 로그인 API ("/login") - method : POST
+1. 로그인 API ("/login") - method : POST (개발완료)
+
+ MemberRestController
+
+ 1-1. 로그아웃 API("/logout/{id}") - method : GET 
 
  MemberRestController
 
@@ -8,7 +12,7 @@ API
 
  MemberRestController
 
-3. 회원 정보 API ("/info/{id}") - method : GET
+3. 회원 정보 API ("/info/{id}") - method : GET (개발완료)
 
  MemberRestController
 
@@ -16,7 +20,7 @@ API
 
  MemberRestController
 
-4. 회원 탈퇴 API ("/resign") - method : POST
+4. 회원 탈퇴 API ("/resign/{id}") - method : POST
 
  MemberRestController
  ======================= 회원 로직 9월 27일 밤까지 =====================================
