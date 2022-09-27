@@ -82,4 +82,8 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public void deleteHugoUserInfo(String id,String pwd) {
+        hugoUserInfoDao.deleteHugoUserInfo(id,pwd);
+    }
 }

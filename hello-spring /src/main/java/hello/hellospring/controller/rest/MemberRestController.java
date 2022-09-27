@@ -4,6 +4,7 @@ import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.logic.MemberLogic;
 import hello.hellospring.req.model.HugoLoginReqModel;
+import hello.hellospring.req.model.HugoUserDeleteReqModel;
 import hello.hellospring.req.model.HugoUserSaveReqModel;
 import hello.hellospring.req.model.TestReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
@@ -65,6 +66,12 @@ public class MemberRestController {
     public ResponseEntity<ApiResultObjectDto> updateMemberInfo(@Valid @RequestParam String id,@RequestParam String pwd) {
 
         ApiResultObjectDto apiResultObjectDto = memberLogic.updateHugoMemberInfo(id, pwd);
+        return ResponseEntity.ok(apiResultObjectDto);
+    }
+
+    @PostMapping(value = "/resign/{id}")
+    public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@Valid @RequestParam String id,@RequestParam String pwd, HttpServletRequest request) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id,pwd, request);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 }

@@ -4,6 +4,7 @@ import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import hello.hellospring.req.model.HugoLoginReqModel;
+import hello.hellospring.req.model.HugoUserDeleteReqModel;
 import hello.hellospring.req.model.HugoUserSaveReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.service.MemberService;
@@ -183,6 +184,30 @@ public class MemberLogic {
 
         // 결과값 송출해줄 resultMap
         resultMap.put("userId",hugoUserInfoModel.getId());
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    public ApiResultObjectDto deleteHugoUserInfo(String id ,String pwd, HttpServletRequest request) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, String>resultMap = new HashMap<>();
+
+        HttpSession session = request.getSession();
+
+        HugoUserInfoModel loginMember = (HugoUserInfoModel)session.getAttribute("loginMember");
+        HugoUserInfoModel reqMember = memberService.findHugoUserById(id);
+
+        if(loginMember.getPwd().equals(pwd)) {
+            memberService.deleteHugoUserInfo(id,pwd);
+        }
+
+        session.removeAttribute("loginMember");
+        session.removeAttribute("isLogon");
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)

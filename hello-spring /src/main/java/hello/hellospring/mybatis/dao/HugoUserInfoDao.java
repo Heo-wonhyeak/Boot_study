@@ -45,4 +45,7 @@ public interface HugoUserInfoDao {
             "interest = #{interest,jdbcType=VARCHAR },\n" +
             "WHERE id = #{id }")
     void updateHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
+
+    @Delete("DELETE FROM HUGO_USER_INFO WHERE id=#{id} and pwd=#{pwd}")
+    void deleteHugoUserInfo(String id ,String pwd);
 }
