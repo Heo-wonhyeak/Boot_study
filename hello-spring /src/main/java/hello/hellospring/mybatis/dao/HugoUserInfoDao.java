@@ -3,6 +3,7 @@ package hello.hellospring.mybatis.dao;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,4 +28,7 @@ public interface HugoUserInfoDao {
 
     @Select("select * from hugo_user_info where id = #{id}")
     HugoUserInfoModel findUserById(@Param("id") String id);
+
+    @Select("select * from hugo_user_info where id = #{id}")
+    HugoUserInfoModel findHugoMemberInfoById(@RequestParam("id") String id);
 }

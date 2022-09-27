@@ -53,4 +53,10 @@ public class MemberRestController {
         ApiResultObjectDto apiResultObjectDto = memberLogic.loginByIdLogic(reqModel, request);
         return ResponseEntity.ok(apiResultObjectDto);
     }
+
+    @GetMapping(value = "/info/{id}")
+    public ResponseEntity<ApiResultObjectDto> getMemberInfo(@Valid @RequestParam String id) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.getHugoMemberInfo(id);
+        return ResponseEntity.ok(apiResultObjectDto);
+    }
 }

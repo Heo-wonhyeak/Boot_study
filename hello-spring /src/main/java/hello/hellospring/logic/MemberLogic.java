@@ -138,4 +138,21 @@ public class MemberLogic {
                 .result(resultMap)
                 .build();
     }
+
+    public ApiResultObjectDto getHugoMemberInfo(String id) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+
+        HugoUserInfoModel loginMember = memberService.findHugoMemberInfoById(id);
+
+        if(loginMember == null) {
+            resultCode = 550;
+            log.error("해당 회원아이디는 존재하지 않습니다"+id);
+            return null;
+        }
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(loginMember)
+                .build();
+    }
 }

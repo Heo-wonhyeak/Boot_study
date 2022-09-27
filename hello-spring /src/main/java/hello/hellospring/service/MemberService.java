@@ -64,4 +64,12 @@ public class MemberService {
         }
     }
 
+    public HugoUserInfoModel findHugoMemberInfoById(String id) {
+        if (!"".equals(id)) {
+            return hugoUserInfoDao.findHugoMemberInfoById(id);
+        } else {
+            return null;
+        }
+    }
+
 }
