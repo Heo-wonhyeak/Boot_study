@@ -46,4 +46,22 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public int loginById(HugoUserInfoModel hugoUserInfoModel) {
+
+        int result = 0;
+        if(!"".equals(hugoUserInfoModel.getId())) {
+            result = hugoUserInfoDao.loginById(hugoUserInfoModel);
+        }
+        return result;
+    }
+
+    public HugoUserInfoModel findHugoUserById(String id) {
+        if (!"".equals(id)) {
+            return hugoUserInfoDao.findUserById(id);
+        } else {
+            return null;
+        }
+    }
+
 }

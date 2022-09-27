@@ -2,6 +2,7 @@ package hello.hellospring.mybatis.dao;
 
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -21,4 +22,9 @@ public interface HugoUserInfoDao {
     @Options(useGeneratedKeys = true, keyProperty = "idx", keyColumn = "idx")
     void saveHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
 
+    @Select("select * from hugo_user_info where id = #{id} and pwd= #{pwd}")
+    int loginById(HugoUserInfoModel hugoUserInfoModel);
+
+    @Select("select * from hugo_user_info where id = #{id}")
+    HugoUserInfoModel findUserById(@Param("id") String id);
 }
