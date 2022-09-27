@@ -4,6 +4,14 @@ import hello.hellospring.enums.ErrorCodeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * <pre>
+ * 사용법
+ * 필요한 예외 처리하는 부분에 throw new BaseException();
+ * 필요한 함수 인자값을 입력한다.
+ * ex) throw new BaseException(ErrorCodeEnum.CONNECTION_TIMEOUT.msg(), ErrorCodeEnum.CONNECTION_TIMEOUT)
+ * </pre>
+ */
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class BaseException extends RuntimeException {

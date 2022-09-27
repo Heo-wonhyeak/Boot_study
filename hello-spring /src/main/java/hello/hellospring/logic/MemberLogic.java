@@ -37,8 +37,6 @@ public class MemberLogic {
         if (userInfoModelList.size() == 0 || userInfoModelList.isEmpty()) {
             //throw new BaseException(ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST.msg(), ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST);
             resultCode = ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST.code();
-        } else {
-            throw new BaseException(ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST.msg(), ErrorCodeEnum.CUSTOM_EMPTY_MEMBER_LIST);
         }
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)

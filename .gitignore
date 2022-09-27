@@ -1,3 +1,4 @@
 #pdf exclude
 *.pdf
-*.properties
+*.idea/*
+*/application.properties
