@@ -1,6 +1,7 @@
 package hello.hellospring.mybatis.dao;
 
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
+import hello.hellospring.req.model.HugoLoginReqModel;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,12 +24,25 @@ public interface HugoUserInfoDao {
     @Options(useGeneratedKeys = true, keyProperty = "idx", keyColumn = "idx")
     void saveHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
 
-    @Select("select * from hugo_user_info where id = #{id} and pwd= #{pwd}")
-    int loginById(HugoUserInfoModel hugoUserInfoModel);
+    @Select("select * from hugo_user_info where id = #{id} and pwd= #{pwd} ")
+    HugoUserInfoModel loginById(HugoLoginReqModel hugoUserInfoModel);
 
     @Select("select * from hugo_user_info where id = #{id}")
     HugoUserInfoModel findUserById(@Param("id") String id);
 
     @Select("select * from hugo_user_info where id = #{id}")
     HugoUserInfoModel findHugoMemberInfoById(@RequestParam("id") String id);
+
+    @Update("UPDATE HUGO_USER_INFO\n" +
+            "SET\n" +
+            "pwd = #{pwd },\n" +
+            "name = #{name },\n" +
+            "nick_name = #{nick_name },\n" +
+            "email = #{email },\n" +
+            "birth_day = #{birth_day },\n" +
+            "gender = #{gender },\n" +
+            "call_num = #{call_num },\n" +
+            "interest = #{interest,jdbcType=VARCHAR },\n" +
+            "WHERE id = #{id }")
+    void updateHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
 }

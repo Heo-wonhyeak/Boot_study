@@ -117,8 +117,13 @@ public class MemberLogic {
 
         // reqUser 요청 유저가 있으면
         if(reqUser != null) {
-            // 요청유저에 저장된 Pwd 와 요청 모델의 pwd 가 같으면 로그인 성공!
-            if(reqUser.getPwd().equals(reqModel.getPwd())) {
+            HugoUserInfoModel loginMember = memberService.loginById(reqModel);
+            String reqId = reqUser.getId();
+            String reqPwd = reqUser.getPwd();
+            String loginId = loginMember.getId();
+            String loginPwd = loginMember.getPwd();
+
+            if(loginMember != null) {
                 HttpSession session = request.getSession();
                 // 세션에 요청 유저 정보 저장
                 session.setAttribute("loginMember",reqUser);
@@ -126,11 +131,14 @@ public class MemberLogic {
                 session.setAttribute("isLogOn",true);
                 // hashMap 에 nickName 저장 - 로그인 결과 뿌려줄때 사용
                 resultMap.put("nickName", reqUser.getNickName());
+            } else {
+                // pwd 가 맞지 않는다면
+                resultCode = 511;
+                log.error("패스워드를 확인하세요 Pwd : "+reqModel.getPwd());
             }
         } else {
-            // 요청 유저가 없다면
             resultCode = 510;
-            log.error("요청한 정보가 없습니다 id 혹은 패스워드를 확인하세요 Id : "+reqModel.getId());
+            log.error("아이디를 확인하세요 id : "+reqModel.getId());
         }
 
         return ApiResultObjectDto.builder()
@@ -153,6 +161,32 @@ public class MemberLogic {
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(loginMember)
+                .build();
+    }
+
+    public ApiResultObjectDto updateHugoMemberInfo(String id, String pwd) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, String>resultMap = new HashMap<>();
+
+        HugoUserInfoModel hugoUserInfoModel = memberService.findHugoMemberInfoById(id);
+
+        String userPwd = hugoUserInfoModel.getPwd();
+
+        if(userPwd.equals(pwd)) {
+            memberService.updateHugoUserInfo(hugoUserInfoModel);
+        } else {
+            resultCode = 511;
+            log.error("패스워드를 확인하세요 Pwd : "+pwd);
+        }
+
+        // 결과값 송출해줄 resultMap
+        resultMap.put("userId",hugoUserInfoModel.getId());
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
                 .build();
     }
 }

@@ -9,6 +9,7 @@ import hello.hellospring.req.model.TestReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.res.model.TestResModel;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,13 @@ public class MemberRestController {
     @GetMapping(value = "/info/{id}")
     public ResponseEntity<ApiResultObjectDto> getMemberInfo(@Valid @RequestParam String id) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.getHugoMemberInfo(id);
+        return ResponseEntity.ok(apiResultObjectDto);
+    }
+
+    @PostMapping(value = "/info/{id}")
+    public ResponseEntity<ApiResultObjectDto> updateMemberInfo(@Valid @RequestParam String id,@RequestParam String pwd) {
+
+        ApiResultObjectDto apiResultObjectDto = memberLogic.updateHugoMemberInfo(id, pwd);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 }

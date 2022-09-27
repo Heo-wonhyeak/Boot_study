@@ -2,6 +2,7 @@ package hello.hellospring.service;
 
 import hello.hellospring.mybatis.dao.HugoUserInfoDao;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
+import hello.hellospring.req.model.HugoLoginReqModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,13 +48,15 @@ public class MemberService {
     }
 
     @Transactional
-    public int loginById(HugoUserInfoModel hugoUserInfoModel) {
+    public HugoUserInfoModel loginById(HugoLoginReqModel hugoUserInfoModel) {
+        String userId = hugoUserInfoModel.getId();
 
-        int result = 0;
-        if(!"".equals(hugoUserInfoModel.getId())) {
-            result = hugoUserInfoDao.loginById(hugoUserInfoModel);
+        if(!userId.isEmpty()) {
+            return hugoUserInfoDao.loginById(hugoUserInfoModel);
+        } else {
+            return null;
         }
-        return result;
+
     }
 
     public HugoUserInfoModel findHugoUserById(String id) {
@@ -69,6 +72,13 @@ public class MemberService {
             return hugoUserInfoDao.findHugoMemberInfoById(id);
         } else {
             return null;
+        }
+    }
+
+    @Transactional
+    public void updateHugoUserInfo(HugoUserInfoModel hugoUserInfoModel) {
+        if (!"".equals(hugoUserInfoModel.getId())) {
+            hugoUserInfoDao.updateHugoUserInfo(hugoUserInfoModel);
         }
     }
 
