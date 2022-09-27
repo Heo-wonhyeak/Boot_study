@@ -71,7 +71,7 @@ public class MemberRestController {
 
     @PostMapping(value = "/resign/{id}")
     public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@Valid @RequestParam String id,@RequestParam String pwd, HttpServletRequest request) {
-        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id,pwd, request);
+        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id,pwd,request);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 }

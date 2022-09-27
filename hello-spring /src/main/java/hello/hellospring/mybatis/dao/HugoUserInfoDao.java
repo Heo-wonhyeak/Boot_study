@@ -47,5 +47,5 @@ public interface HugoUserInfoDao {
     void updateHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
 
     @Delete("DELETE FROM HUGO_USER_INFO WHERE id=#{id} and pwd=#{pwd}")
-    void deleteHugoUserInfo(String id ,String pwd);
+    void deleteHugoUserInfo(@Param(value = "id") String id ,@Param(value = "pwd") String pwd);
 }

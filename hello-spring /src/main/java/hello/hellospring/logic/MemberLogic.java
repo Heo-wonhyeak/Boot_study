@@ -204,6 +204,9 @@ public class MemberLogic {
 
         if(loginMember.getPwd().equals(pwd)) {
             memberService.deleteHugoUserInfo(id,pwd);
+        } else {
+            resultCode = 511;
+            log.error("패스워드를 확인하세요 Pwd : "+pwd);
         }
 
         session.removeAttribute("loginMember");
