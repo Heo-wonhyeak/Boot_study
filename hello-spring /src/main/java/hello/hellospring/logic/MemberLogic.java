@@ -3,6 +3,8 @@ package hello.hellospring.logic;
 import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
+import hello.hellospring.req.model.HugoLoginReqModel;
+import hello.hellospring.req.model.HugoUserDeleteReqModel;
 import hello.hellospring.req.model.HugoUserSaveReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.service.MemberService;
@@ -12,6 +14,9 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -98,4 +103,140 @@ public class MemberLogic {
                 .result(resultMap)
                 .build();
     }
+
+    @Transactional
+    public ApiResultObjectDto loginByIdLogic(HugoLoginReqModel reqModel , HttpServletRequest request) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, String>resultMap = new HashMap<>();
+
+        // reqModel 에 요청된 id 로 HugoUserInfoModel 객체를 reqUser 로불러옴
+        HugoUserInfoModel reqUser = memberService.findHugoUserById(reqModel.getId());
+
+        // reqUser 요청 유저가 있으면
+        if(reqUser != null) {
+            HugoUserInfoModel loginMember = memberService.loginById(reqModel);
+            String reqId = reqUser.getId();
+            String reqPwd = reqUser.getPwd();
+            String loginId = loginMember.getId();
+            String loginPwd = loginMember.getPwd();
+
+            if(loginMember != null) {
+                HttpSession session = request.getSession();
+                // 세션에 요청 유저 정보 저장
+                session.setAttribute("loginMember",reqUser);
+                // 세션에 로그인 여부 저장
+                session.setAttribute("isLogon",true);
+                // hashMap 에 nickName 저장 - 로그인 결과 뿌려줄때 사용
+                resultMap.put("nickName", reqUser.getNickName());
+            } else {
+                // pwd 가 맞지 않는다면
+                resultCode = 511;
+                log.error("패스워드를 확인하세요 Pwd : "+reqModel.getPwd());
+            }
+        } else {
+            resultCode = 510;
+            log.error("아이디를 확인하세요 id : "+reqModel.getId());
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    public ApiResultObjectDto logoutByIdLogic(String id,HttpServletRequest request) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        Boolean isLogon = false;
+
+        HttpSession session = request.getSession();
+        isLogon = (Boolean)session.getAttribute("isLogon");
+
+        if(isLogon) {
+            session.removeAttribute("loginMember");
+            session.removeAttribute("isLogon");
+        } else {
+            resultCode = 599;
+            log.error("logon 되어있지 않습니다");
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(id)
+                .build();
+    }
+
+    public ApiResultObjectDto getHugoMemberInfo(String id) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+
+        HugoUserInfoModel loginMember = memberService.findHugoMemberInfoById(id);
+
+        if(loginMember == null) {
+            resultCode = 550;
+            log.error("해당 회원아이디는 존재하지 않습니다"+id);
+            return null;
+        }
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(loginMember)
+                .build();
+    }
+
+    public ApiResultObjectDto updateHugoMemberInfo(String id, String pwd) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, String>resultMap = new HashMap<>();
+
+        HugoUserInfoModel hugoUserInfoModel = memberService.findHugoMemberInfoById(id);
+
+        String userPwd = hugoUserInfoModel.getPwd();
+
+        if(userPwd.equals(pwd)) {
+            memberService.updateHugoUserInfo(hugoUserInfoModel);
+        } else {
+            resultCode = 511;
+            log.error("패스워드를 확인하세요 Pwd : "+pwd);
+        }
+
+        // 결과값 송출해줄 resultMap
+        resultMap.put("userId",hugoUserInfoModel.getId());
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    public ApiResultObjectDto deleteHugoUserInfo(String id ,String pwd, HttpServletRequest request) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, String>resultMap = new HashMap<>();
+
+        HttpSession session = request.getSession();
+
+        HugoUserInfoModel loginMember = (HugoUserInfoModel)session.getAttribute("loginMember");
+        HugoUserInfoModel reqMember = memberService.findHugoUserById(id);
+
+        if(loginMember.getPwd().equals(pwd)) {
+            memberService.deleteHugoUserInfo(id,pwd);
+        } else {
+            resultCode = 511;
+            log.error("패스워드를 확인하세요 Pwd : "+pwd);
+        }
+
+        session.removeAttribute("loginMember");
+        session.removeAttribute("isLogon");
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+
 }

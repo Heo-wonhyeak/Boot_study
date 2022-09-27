@@ -1,5 +1,6 @@
 package hello.hellospring.mybatis.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -7,7 +8,7 @@ import java.util.Date;
 @Data
 public class HugoBoardModel {
 
-    private int boardIdx;
+    private Long boardIdx;
 
     private String title;
 
@@ -19,10 +20,11 @@ public class HugoBoardModel {
 
     private String oFile;
 
-    private int likeCount;
+    private Long likeCount;
 
-    private int visitCount;
+    private Long visitCount;
 
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     private Date createDate;
 
     private String writeHeader;

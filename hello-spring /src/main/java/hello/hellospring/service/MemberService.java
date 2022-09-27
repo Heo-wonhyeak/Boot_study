@@ -2,6 +2,7 @@ package hello.hellospring.service;
 
 import hello.hellospring.mybatis.dao.HugoUserInfoDao;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
+import hello.hellospring.req.model.HugoLoginReqModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,4 +47,43 @@ public class MemberService {
         }
     }
 
+    @Transactional
+    public HugoUserInfoModel loginById(HugoLoginReqModel hugoUserInfoModel) {
+        String userId = hugoUserInfoModel.getId();
+
+        if(!userId.isEmpty()) {
+            return hugoUserInfoDao.loginById(hugoUserInfoModel);
+        } else {
+            return null;
+        }
+
+    }
+
+    public HugoUserInfoModel findHugoUserById(String id) {
+        if (!"".equals(id)) {
+            return hugoUserInfoDao.findUserById(id);
+        } else {
+            return null;
+        }
+    }
+
+    public HugoUserInfoModel findHugoMemberInfoById(String id) {
+        if (!"".equals(id)) {
+            return hugoUserInfoDao.findHugoMemberInfoById(id);
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional
+    public void updateHugoUserInfo(HugoUserInfoModel hugoUserInfoModel) {
+        if (!"".equals(hugoUserInfoModel.getId())) {
+            hugoUserInfoDao.updateHugoUserInfo(hugoUserInfoModel);
+        }
+    }
+
+    @Transactional
+    public void deleteHugoUserInfo(String id,String pwd) {
+        hugoUserInfoDao.deleteHugoUserInfo(id,pwd);
+    }
 }
