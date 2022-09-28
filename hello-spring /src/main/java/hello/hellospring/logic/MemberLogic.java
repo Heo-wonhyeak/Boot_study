@@ -218,14 +218,17 @@ public class MemberLogic {
         //리턴해줄 object map 선언
         Map<String, String>resultMap = new HashMap<>();
 
-        if(!"".equals(reqModel.getId())) {
-            memberService.updateHugoUserInfo(reqModel);
-        } else {
-            resultCode = 551;
-        }
+        HugoUserInfoModel hugoMemberInfoById = memberService.findHugoMemberInfoById(reqModel.getId());
+        log.debug("reqModel.getNickName() : {}",reqModel.getNickName());
 
-        // 결과값 송출해줄 resultMap
-        resultMap.put("nickName", reqModel.getNickName());
+        if(hugoMemberInfoById == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+            log.error("회원정보가 없습니다. :: " + reqModel.getId());
+        } else {
+            memberService.updateHugoUserInfo(reqModel);
+            // 결과값 송출해줄 resultMap
+            resultMap.put("nickName", reqModel.getNickName());
+        }
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
@@ -242,6 +245,7 @@ public class MemberLogic {
         // 비밀번호 검증 API 통과 후 삭제 진행
         String CheckedPwd = memberService.pwdCheckById(reqModel.getId());
 
+        // 아이디로 가져온 비밀번호가 비었다면 회원정보는 없음
         if("".equals(CheckedPwd) || CheckedPwd == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
             log.error("회원정보가 없습니다");

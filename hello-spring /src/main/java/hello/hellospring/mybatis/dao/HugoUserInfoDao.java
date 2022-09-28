@@ -41,12 +41,12 @@ public interface HugoUserInfoDao {
             "SET\n" +
             "pwd = #{pwd },\n" +
             "name = #{name },\n" +
-            "nick_name = #{nick_name },\n" +
+            "nick_name = #{nickName },\n" +
             "email = #{email },\n" +
-            "birth_day = #{birth_day },\n" +
+            "birth_day = #{birthDay },\n" +
             "gender = #{gender },\n" +
-            "call_num = #{call_num },\n" +
-            "interest = #{interest,jdbcType=VARCHAR },\n" +
+            "call_num = #{callNum },\n" +
+            "interest = #{interest,jdbcType=VARCHAR } \n" +
             "WHERE id = #{id }")
     void updateHugoUserInfo(HugoUserModifyReqModel hugoUserModifyReqModel);
 
