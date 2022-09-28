@@ -222,7 +222,7 @@ public class MemberLogic {
         log.debug("reqModel.getNickName() : {}",reqModel.getNickName());
 
         if(hugoMemberInfoById == null) {
-            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_USER_INFO_NULL.code();
             log.error("회원정보가 없습니다. :: " + reqModel.getId());
         } else {
             memberService.updateHugoUserInfo(reqModel);
@@ -277,7 +277,7 @@ public class MemberLogic {
 
         // 요청한 id 값으로 가져온 회원정보가 없다면
         if(hugoUserById == null) {
-            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_USER_INFO_NULL.code();
             log.error("회원정보가 없습니다");
         } else {
             // 요청 모델의 비밀번호와 회원 비밀번호가 같다면 성공

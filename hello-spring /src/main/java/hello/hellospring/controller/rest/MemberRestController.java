@@ -91,7 +91,7 @@ public class MemberRestController {
      * @param reqModel
      * @return
      */
-    @PostMapping(value = "/checkedPwd")
+    @PostMapping(value = "/checkPwd")
     public ResponseEntity<ApiResultObjectDto> checkedPwd(@RequestBody HugoPwdCheckedReqModel reqModel) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.pwdCheckById(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);

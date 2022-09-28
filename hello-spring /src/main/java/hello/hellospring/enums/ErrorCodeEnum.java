@@ -9,6 +9,7 @@ public enum ErrorCodeEnum {
     CUSTOM_EMPTY_MEMBER_LIST(700, "회원목록이 없습니다."),
     CUSTOM_ERROR_LOGIN(701, "로그인시 에러 발생."),
     CUSTOM_ERROR_NOT_FOUND_USER(702, "아이디 혹은 패스워드를 확인해주세요"),
+    CUSTOM_ERROR_USER_INFO_NULL(703, "회원정보가 없습니다."),
 
     CUSTOM_ERROR_NOT_NULLABLE(800, "값이 없으면 안됩니다"),
 
