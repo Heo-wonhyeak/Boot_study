@@ -3,10 +3,7 @@ package hello.hellospring.logic;
 import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
-import hello.hellospring.req.model.HugoLoginReqModel;
-import hello.hellospring.req.model.HugoUserDeleteReqModel;
-import hello.hellospring.req.model.HugoUserModifyReqModel;
-import hello.hellospring.req.model.HugoUserSaveReqModel;
+import hello.hellospring.req.model.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -260,19 +257,26 @@ public class MemberLogic {
     }
 
     //비밀번호 검증 API
-    public ApiResultObjectDto pwdCheckById(String id) {
+    public ApiResultObjectDto pwdCheckById(HugoPwdCheckedReqModel reqModel) {
         //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
         //리턴해줄 object map 선언
         Map<String, String>resultMap = new HashMap<>();
 
-        if(id != null) {
-            String checkedPwd = memberService.pwdCheckById(id);
-            if(checkedPwd == null) {
-                resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
-                log.error("아이디 혹은 패스워드를 확인하세요");
+        HugoUserInfoModel hugoUserById = memberService.findHugoUserById(reqModel.getId());
+
+        // 요청한 id 값으로 가져온 회원정보가 없다면
+        if(hugoUserById == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+            log.error("회원정보가 없습니다");
+        } else {
+            // 요청 모델의 비밀번호와 회원 비밀번호가 같다면 성공
+            if (reqModel.getPwd().equals(hugoUserById.getPwd())) {
+                resultMap.put("id", reqModel.getId());
             } else {
-                resultMap.put("checkedPwd",checkedPwd);
+                // 다르다면
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+                log.error("아이디 혹은 패스워드를 확인해주세요");
             }
         }
 

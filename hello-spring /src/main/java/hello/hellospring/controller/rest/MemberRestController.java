@@ -88,12 +88,12 @@ public class MemberRestController {
 
     /**
      * 회원 비밀번호 검증 API
-     * @param id
+     * @param reqModel
      * @return
      */
     @PostMapping(value = "/checkedPwd")
-    public ResponseEntity<ApiResultObjectDto> checkedPwd(@Param("id") String id) {
-        ApiResultObjectDto apiResultObjectDto = memberLogic.pwdCheckById(id);
+    public ResponseEntity<ApiResultObjectDto> checkedPwd(@RequestBody HugoPwdCheckedReqModel reqModel) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.pwdCheckById(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
