@@ -81,23 +81,25 @@ public class MemberRestController {
 
     /**
      * 회원 탈퇴 API
-     * @param id
-     * @param pwd
-     * @param request
+     * @param reqModel
      * @return
      */
     @PostMapping(value = "/resign")
-    public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@RequestParam(value = "id") String id, @RequestParam(value = "pwd") String pwd, HttpServletRequest request) {
-        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id, pwd, request);
+    public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@RequestBody HugoUserDeleteReqModel reqModel) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
     /**
-     * TODO 회원 비밀번호 검증 API
+     * 회원 비밀번호 검증 API
      * @param id
-     * @param request
      * @return
      */
+    @PostMapping(value = "/checkedPwd")
+    public ResponseEntity<ApiResultObjectDto> checkedPwd(@Param("id") String id) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.pwdCheckById(id);
+        return ResponseEntity.ok(apiResultObjectDto);
+    }
 
 
     @Deprecated

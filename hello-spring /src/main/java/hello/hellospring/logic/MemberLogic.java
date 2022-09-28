@@ -240,26 +240,45 @@ public class MemberLogic {
                 .build();
     }
 
-    public ApiResultObjectDto deleteHugoUserInfo(String id, String pwd, HttpServletRequest request) {
+    public ApiResultObjectDto deleteHugoUserInfo(HugoUserDeleteReqModel reqModel) {
         //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
         //리턴해줄 object map 선언
         Map<String, String>resultMap = new HashMap<>();
 
-        HttpSession session = request.getSession();
-
-        HugoUserInfoModel loginMember = (HugoUserInfoModel)session.getAttribute("loginMember");
-        HugoUserInfoModel reqMember = memberService.findHugoUserById(id);
-
-        if(loginMember.getPwd().equals(pwd)) {
-            memberService.deleteHugoUserInfo(id,pwd);
+        // 비밀번호 검증 API 통과 후 삭제 진행
+        String CheckedPwd = memberService.pwdCheckById(reqModel.getId());
+        // id로 가져온 비밀번호와 reqModel 의 비밀번호가 같으면
+        if(CheckedPwd.equals(reqModel.getPwd())) {
+            memberService.deleteHugoUserInfo(reqModel.getId(), reqModel.getPwd());
+            resultMap.put("id", reqModel.getId());
         } else {
-            resultCode = 511;
-            log.error("패스워드를 확인하세요 Pwd : "+pwd);
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+            log.error("아이디 혹은 패스워드를 확인하세요");
         }
+        
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
 
-        session.removeAttribute("loginMember");
-        session.removeAttribute("isLogon");
+    //비밀번호 검증 API
+    public ApiResultObjectDto pwdCheckById(String id) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, String>resultMap = new HashMap<>();
+
+        if(id != null) {
+            String checkedPwd = memberService.pwdCheckById(id);
+            if(checkedPwd == null) {
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+                log.error("아이디 혹은 패스워드를 확인하세요");
+            } else {
+                resultMap.put("checkedPwd",checkedPwd);
+            }
+        }
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)

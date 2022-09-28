@@ -51,4 +51,8 @@ public interface HugoUserInfoDao {
 
     @Delete("DELETE FROM HUGO_USER_INFO WHERE id=#{id} and pwd=#{pwd}")
     void deleteHugoUserInfo(@Param(value = "id") String id ,@Param(value = "pwd") String pwd);
+
+    //아이디로 비밀번호 가져와서 입력 비밀번호와 같은지 확인
+    @Select("select pwd from hugo_user_info where id = #{id }")
+    String pwdCheckById(@Param("id") String id);
 }
