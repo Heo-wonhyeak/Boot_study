@@ -3,6 +3,7 @@ package hello.hellospring.service;
 import hello.hellospring.mybatis.dao.HugoUserInfoDao;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import hello.hellospring.req.model.HugoLoginReqModel;
+import hello.hellospring.req.model.HugoUserModifyReqModel;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,9 +85,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateHugoUserInfo(HugoUserInfoModel hugoUserInfoModel) {
-        if (!"".equals(hugoUserInfoModel.getId())) {
-            hugoUserInfoDao.updateHugoUserInfo(hugoUserInfoModel);
+    public void updateHugoUserInfo(HugoUserModifyReqModel hugoUserModifyReqModel) {
+        if (!"".equals(hugoUserModifyReqModel.getId())) {
+            hugoUserInfoDao.updateHugoUserInfo(hugoUserModifyReqModel);
         }
     }
 

@@ -2,6 +2,7 @@ package hello.hellospring.mybatis.dao;
 
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import hello.hellospring.req.model.HugoLoginReqModel;
+import hello.hellospring.req.model.HugoUserModifyReqModel;
 import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +48,7 @@ public interface HugoUserInfoDao {
             "call_num = #{call_num },\n" +
             "interest = #{interest,jdbcType=VARCHAR },\n" +
             "WHERE id = #{id }")
-    void updateHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
+    void updateHugoUserInfo(HugoUserModifyReqModel hugoUserModifyReqModel);
 
     @Delete("DELETE FROM HUGO_USER_INFO WHERE id=#{id} and pwd=#{pwd}")
     void deleteHugoUserInfo(@Param(value = "id") String id ,@Param(value = "pwd") String pwd);

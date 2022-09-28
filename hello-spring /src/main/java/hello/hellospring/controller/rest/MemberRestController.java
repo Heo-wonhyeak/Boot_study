@@ -3,10 +3,7 @@ package hello.hellospring.controller.rest;
 import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.logic.MemberLogic;
-import hello.hellospring.req.model.HugoLoginReqModel;
-import hello.hellospring.req.model.HugoUserDeleteReqModel;
-import hello.hellospring.req.model.HugoUserSaveReqModel;
-import hello.hellospring.req.model.TestReqModel;
+import hello.hellospring.req.model.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.res.model.TestResModel;
 import lombok.extern.slf4j.Slf4j;
@@ -68,14 +65,13 @@ public class MemberRestController {
     }
 
     /**
-     * 회원정보 수정 API
-     * @param id
-     * @param pwd
+     * 회원 정보 수정 API
+     * @param reqModel
      * @return
      */
-    @PostMapping(value = "/info/{id}")
-    public ResponseEntity<ApiResultObjectDto> updateMemberInfo(@RequestParam String id, @RequestParam String pwd) {
-        ApiResultObjectDto apiResultObjectDto = memberLogic.updateHugoMemberInfo(id, pwd);
+    @PostMapping("/info/modify")
+    public ResponseEntity<ApiResultObjectDto> updateMemberInfo(@RequestBody HugoUserModifyReqModel reqModel) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.updateHugoMemberInfo(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 

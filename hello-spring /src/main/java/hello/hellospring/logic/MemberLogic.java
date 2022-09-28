@@ -5,6 +5,7 @@ import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import hello.hellospring.req.model.HugoLoginReqModel;
 import hello.hellospring.req.model.HugoUserDeleteReqModel;
+import hello.hellospring.req.model.HugoUserModifyReqModel;
 import hello.hellospring.req.model.HugoUserSaveReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.service.MemberService;
@@ -75,7 +76,7 @@ public class MemberLogic {
                 resultCode = 552;
                 log.error("이미 존재하는 아이디 입니다. ID :: " + reqModel.getId());
             }
-            //아이디가 존재하지 않으므로 저장 로직 사직
+            //아이디가 존재하지 않으므로 저장 로직 시작
             if (userCount == 0) {
                 HugoUserInfoModel hugoUserInfoModel = new HugoUserInfoModel();
                 hugoUserInfoModel.setId(reqModel.getId());
@@ -214,25 +215,20 @@ public class MemberLogic {
                 .build();
     }
 
-    public ApiResultObjectDto updateHugoMemberInfo(String id, String pwd) {
+    public ApiResultObjectDto updateHugoMemberInfo(HugoUserModifyReqModel reqModel) {
         //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
         //리턴해줄 object map 선언
         Map<String, String>resultMap = new HashMap<>();
 
-        HugoUserInfoModel hugoUserInfoModel = memberService.findHugoMemberInfoById(id);
-
-        String userPwd = hugoUserInfoModel.getPwd();
-
-        if(userPwd.equals(pwd)) {
-            memberService.updateHugoUserInfo(hugoUserInfoModel);
+        if(!"".equals(reqModel.getId())) {
+            memberService.updateHugoUserInfo(reqModel);
         } else {
-            resultCode = 511;
-            log.error("패스워드를 확인하세요 Pwd : "+pwd);
+            resultCode = 551;
         }
 
         // 결과값 송출해줄 resultMap
-        resultMap.put("userId",hugoUserInfoModel.getId());
+        resultMap.put("nickName", reqModel.getNickName());
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
@@ -256,7 +252,7 @@ public class MemberLogic {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
             log.error("아이디 혹은 패스워드를 확인하세요");
         }
-        
+
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(resultMap)
