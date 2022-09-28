@@ -81,12 +81,14 @@ public class MemberRestController {
 
     /**
      * 회원 탈퇴 API
-     * @param reqModel
+     * @param id
+     * @param pwd
+     * @param request
      * @return
      */
     @PostMapping(value = "/resign")
-    public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@RequestBody HugoUserDeleteReqModel reqModel) {
-        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(reqModel);
+    public ResponseEntity<ApiResultObjectDto> deleteMemberInfo(@RequestParam(value = "id") String id, @RequestParam(value = "pwd") String pwd, HttpServletRequest request) {
+        ApiResultObjectDto apiResultObjectDto = memberLogic.deleteHugoUserInfo(id, pwd, request);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
