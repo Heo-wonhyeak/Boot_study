@@ -241,13 +241,19 @@ public class MemberLogic {
 
         // 비밀번호 검증 API 통과 후 삭제 진행
         String CheckedPwd = memberService.pwdCheckById(reqModel.getId());
-        // id로 가져온 비밀번호와 reqModel 의 비밀번호가 같으면
-        if(CheckedPwd.equals(reqModel.getPwd())) {
-            memberService.deleteHugoUserInfo(reqModel.getId(), reqModel.getPwd());
-            resultMap.put("id", reqModel.getId());
-        } else {
+
+        if("".equals(CheckedPwd) || CheckedPwd == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
-            log.error("아이디 혹은 패스워드를 확인하세요");
+            log.error("회원정보가 없습니다");
+        } else {
+            // id로 가져온 비밀번호와 reqModel 의 비밀번호가 같으면
+            if(CheckedPwd.equals(reqModel.getPwd())) {
+                memberService.deleteHugoUserInfo(reqModel.getId(), reqModel.getPwd());
+                resultMap.put("id", reqModel.getId());
+            } else {
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
+                log.error("아이디 혹은 패스워드를 확인하세요");
+            }
         }
 
         return ApiResultObjectDto.builder()
