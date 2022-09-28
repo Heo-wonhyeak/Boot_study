@@ -25,9 +25,6 @@ public interface HugoUserInfoDao {
     void saveHugoUserInfo(HugoUserInfoModel hugoUserInfoModel);
 
     @Select("select * from hugo_user_info where id = #{id} and pwd= #{pwd} ")
-    HugoUserInfoModel loginById(HugoLoginReqModel hugoUserInfoModel);
-
-    @Select("select * from hugo_user_info where id = #{id} and pwd= #{pwd} ")
     HugoUserInfoModel loginByIdAndPassword(@Param("id") String id, @Param("pwd") String pwd);
 
     @Select("select * from hugo_user_info where id = #{id}")
