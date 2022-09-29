@@ -2,7 +2,9 @@ package hello.hellospring.logic;
 
 import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.mybatis.dao.HugoBoardDao;
+import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.req.model.board.HugoBoardLikeReqModel;
 import hello.hellospring.req.model.board.HugoSelectBoardReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
@@ -98,8 +100,6 @@ public class HugoBoardLogic {
             log.error("boardIdx 값을 입력해주세요");
         }
         HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
-        log.error("loginId = {}",id);
-        log.error("boarderId = {}",hugoBoardModel.getId());
 
         // 작성자와 조회하는 사람의 아이디가 같다면
         if(hugoBoardModel.getId().equals(id)) {
@@ -154,6 +154,66 @@ public class HugoBoardLogic {
             } else {
                 hugoBoardService.updateHugoBoard(reqModel);
                 resultMap.put("updateBoard",reqModel);
+            }
+        }
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    public ApiResultObjectDto likeHugoBoard(HugoBoardLikeReqModel reqModel) {
+        // 결과 코드 기본 ok
+        int resultCode = HttpStatus.OK.value();
+        // 결과 선언해줄 resultMap 선언
+        Map<String, Object> resultMap = new HashMap<>();
+
+        log.error("id = {}", reqModel.getId());
+
+        if ("".equals(reqModel.getId())) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_LOGIN.code();
+            log.error("로그인 되어있지 않습니다");
+        }
+
+        if ("".equals(reqModel.getBoardIdx())) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_IDX.code();
+            log.error("게시판 번호를 입력해주세요");
+        }
+
+        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+
+        if(hugoBoardModel == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
+            log.error("존재하지 않는 게시글");
+        } else {
+            // 좋아요 테이블 여부확인
+            HugoBoardLikeModel likeTable = hugoBoardService.selectHugoBoardLike(reqModel.getId(), reqModel.getBoardIdx());
+
+            // 좋아요 테이블이 없다면 만들기
+            if (likeTable == null) {
+                HugoBoardLikeModel hugoBoardLikeModel = new HugoBoardLikeModel();
+                hugoBoardLikeModel.setBoardIdx(reqModel.getBoardIdx());
+                hugoBoardLikeModel.setId(reqModel.getId());
+
+                //좋아요 테이블 만들기
+                hugoBoardService.insertLikeCountBoard(hugoBoardLikeModel);
+
+                likeTable = hugoBoardService.selectHugoBoardLike(reqModel.getId(), reqModel.getBoardIdx());
+            }
+
+            // getLikeYN 이 0 이라면 좋아요 되어있지 않은상태
+            if (likeTable.getLikeYN() == 0) {
+                // LikeYN 1 로 변경
+                hugoBoardService.updateLikeCountBoard(likeTable.getLikeIdx());
+                // 좋아요 숫자 증가
+                hugoBoardService.updateLikeCount(likeTable.getBoardIdx());
+                resultMap.put("isLiked", true);
+            } else {
+                // LikeYN 0으로 변경
+                hugoBoardService.updateDislikeCountBoard(likeTable.getLikeIdx());
+                // 좋아요 숫자 감소
+                hugoBoardService.updateDisLikeCount(likeTable.getBoardIdx());
+                resultMap.put("isLiked", false);
             }
         }
         return ApiResultObjectDto.builder()

@@ -1,6 +1,7 @@
 package hello.hellospring.controller.rest;
 
 import hello.hellospring.logic.HugoBoardLogic;
+import hello.hellospring.req.model.board.HugoBoardLikeReqModel;
 import hello.hellospring.req.model.board.HugoSelectBoardReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
@@ -46,5 +47,10 @@ public class BoardRestController {
     @PostMapping(value = "/update")
     public ResponseEntity<ApiResultObjectDto> updateHugoBoard(@RequestBody HugoUpdateBoardReqModel reqModel) {
         return ResponseEntity.ok(hugoBoardLogic.updateHugoBoard(reqModel));
+    }
+
+    @PostMapping("/like")
+    public ResponseEntity<ApiResultObjectDto> likeHugoBoard(@RequestBody HugoBoardLikeReqModel reqModel) {
+        return ResponseEntity.ok(hugoBoardLogic.likeHugoBoard(reqModel));
     }
 }

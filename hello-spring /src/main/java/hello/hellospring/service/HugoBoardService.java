@@ -1,13 +1,16 @@
 package hello.hellospring.service;
 
 import hello.hellospring.mybatis.dao.HugoBoardDao;
+import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class HugoBoardService {
 
@@ -65,5 +68,55 @@ public class HugoBoardService {
      */
     public void updateVisitCount(Long boardIdx) {
         hugoBoardDao.updateVisitCount(boardIdx);
+    }
+
+    /**
+     * 좋아요 테이블 만들기
+     * @param hugoBoardLikeModel
+     */
+    public void insertLikeCountBoard(HugoBoardLikeModel hugoBoardLikeModel) {
+        hugoBoardDao.insertLikeCountBoard(hugoBoardLikeModel);
+    }
+
+    /**
+     * 좋아요시 테이블 상태변경
+     * @param likeIdx
+     */
+    public void updateLikeCountBoard(Long likeIdx) {
+        hugoBoardDao.updateLikeCountBoard(likeIdx);
+    }
+
+    /**
+     * 좋아요 취소시 테이블 상태변경
+     * @param likeIdx
+     */
+    public void updateDislikeCountBoard(Long likeIdx) {
+        hugoBoardDao.updateDislikeCountBoard(likeIdx);
+    }
+
+    /**
+     * 좋아요 수 증가
+     * @param boardIdx
+     */
+    public void updateLikeCount(Long boardIdx) {
+        hugoBoardDao.updateLikeCount(boardIdx);
+    }
+
+    /**
+     * 좋아요 수 감소
+     * @param boardIdx
+     */
+    public void updateDisLikeCount(Long boardIdx) {
+        hugoBoardDao.updateDisLikeCount(boardIdx);
+    }
+
+    /**
+     * id 와 boardIdx 로 좋아요 테이블 존재 여부 확인
+     * @param id
+     * @param boardIdx
+     */
+    public HugoBoardLikeModel selectHugoBoardLike(String id, Long boardIdx) {
+        log.error("service id = {}", id);
+        return hugoBoardDao.selectHugoBoardLike(id, boardIdx);
     }
 }

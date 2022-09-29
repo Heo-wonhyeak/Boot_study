@@ -1,5 +1,6 @@
 package hello.hellospring.mybatis.dao;
 
+import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import org.apache.ibatis.annotations.*;
@@ -69,4 +70,58 @@ public interface HugoBoardDao {
             "visit_count = visit_count+1 " +
             "where board_idx = #{boardIdx}")
     void updateVisitCount(Long boardIdx);
+
+    /**
+     * 좋아요 테이블 만들기
+     * @param likeModel
+     */
+    @Insert("insert into hugo_board_like (board_idx, id) " +
+            "values (#{boardIdx} , #{id} )")
+    void insertLikeCountBoard(HugoBoardLikeModel likeModel);
+
+    /**
+     * 좋아요시 테이블 상태변경
+     * @param likeIdx
+     */
+    @Update("update hugo_board_like set " +
+            "like_yn = 1 where like_idx = #{like_idx}")
+    void updateLikeCountBoard(Long likeIdx);
+
+    /**
+     * 좋아요 취소시 테이블 상태변경
+     * @param likeIdx
+     */
+    @Update("update hugo_board_like set " +
+            "like_yn = 0 where like_idx = #{like_idx}")
+    void updateDislikeCountBoard(Long likeIdx);
+
+    /**
+     * 좋아요 수 증가
+     * @param boardIdx
+     */
+    @Update("update hugo_board " +
+            "set " +
+            "like_count = like_count+1 " +
+            "where board_idx = #{boardIdx}")
+    void updateLikeCount(Long boardIdx);
+
+    /**
+     * 좋아요 수 감소
+     * @param boardIdx
+     */
+    @Update("update hugo_board " +
+            "set " +
+            "like_count = like_count-1 " +
+            "where board_idx = #{boardIdx}")
+    void updateDisLikeCount(Long boardIdx);
+
+    /**
+     * id 와 boardIdx 로 좋아요 테이블 존재 여부 확인
+     *
+     * @param id
+     * @param boardIdx
+     * @return
+     */
+    @Select("select * from hugo_board_like where id = #{id } and board_idx = #{boardIdx }")
+    HugoBoardLikeModel selectHugoBoardLike(@Param("id") String id, @Param("boardIdx") Long boardIdx);
 }
