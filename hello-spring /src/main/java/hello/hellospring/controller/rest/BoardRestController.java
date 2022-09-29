@@ -33,4 +33,9 @@ public class BoardRestController {
     public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@RequestParam Long boardIdx) {
         return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx));
     }
+
+    @PostMapping(value = "/delete")
+    public ResponseEntity<ApiResultObjectDto> deleteHugoBoard(@RequestParam Long boardIdx) {
+        return ResponseEntity.ok(hugoBoardLogic.deleteHugoBoard(boardIdx));
+    }
 }

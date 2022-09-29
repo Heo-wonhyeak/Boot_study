@@ -103,4 +103,25 @@ public class HugoBoardLogic {
                 .result(resultMap)
                 .build();
     }
+
+    public ApiResultObjectDto deleteHugoBoard(Long boardIdx) {
+        // 결과 코드 기본 ok
+        int resultCode = HttpStatus.OK.value();
+        // 결과 선언해줄 resultMap 선언
+        Map<String, Object> resultMap = new HashMap<>();
+
+        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
+        if(hugoBoardModel == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
+            log.error("해당 번호의 게시글은 존재하지 않습니다");
+        } else {
+            hugoBoardService.deleteHugoBoard(boardIdx);
+            resultMap.put("boardIdx", boardIdx);
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
 }

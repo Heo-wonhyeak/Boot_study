@@ -38,7 +38,15 @@ public class HugoBoardService {
      * @return
      */
     public HugoBoardModel selectHugoBoard(Long boardIdx) {
-        HugoBoardModel hugoBoardModel = hugoBoardDao.selectBoard(boardIdx);
+        HugoBoardModel hugoBoardModel = hugoBoardDao.selectHugoBoard(boardIdx);
         return hugoBoardModel;
+    }
+
+    /**
+     * 게시글 삭제
+     * @param boardIdx
+     */
+    public void deleteHugoBoard(Long boardIdx) {
+        hugoBoardDao.deleteHugoBoard(boardIdx);
     }
 }
