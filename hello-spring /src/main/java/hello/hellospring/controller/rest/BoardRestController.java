@@ -1,14 +1,12 @@
 package hello.hellospring.controller.rest;
 
 import hello.hellospring.logic.HugoBoardLogic;
+import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @CrossOrigin(value = "*")
@@ -22,6 +20,12 @@ public class BoardRestController {
     @GetMapping(value = "/list/all")
     public ResponseEntity<ApiResultObjectDto> getAllBoardList() {
         ApiResultObjectDto apiResultObjectDto = hugoBoardLogic.getAllHugoBoardLogic();
+        return ResponseEntity.ok(apiResultObjectDto);
+    }
+
+    @PostMapping(value = "/write")
+    public ResponseEntity<ApiResultObjectDto> writeHugoBoard(@RequestBody HugoWriteBoardReqModel reqModel){
+        ApiResultObjectDto apiResultObjectDto = hugoBoardLogic.writeHugoBoardLogic(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 }

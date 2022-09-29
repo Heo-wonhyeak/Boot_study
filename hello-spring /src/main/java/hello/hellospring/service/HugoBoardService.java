@@ -20,4 +20,11 @@ public class HugoBoardService {
     public List<HugoBoardModel> findHugoBoardList() {
         return hugoBoardDao.getHugoBoardList();
     }
+
+    public void writeHugoBoard(HugoBoardModel hugoBoardModel) {
+        // 제목이 입력되었을때 게시글 작성
+        if(!"".equals(hugoBoardModel.getTitle())) {
+            hugoBoardDao.writeHugoBoard(hugoBoardModel);
+        }
+    }
 }

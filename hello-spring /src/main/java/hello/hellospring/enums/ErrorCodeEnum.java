@@ -6,6 +6,8 @@ public enum ErrorCodeEnum {
     FILE_NOT_FOUND(523, "File Not Found Exception"),
     IOE_ERROR(524, "IOE Exception"),
 
+    CUSTOM_ERROR_NOT_TITLE(600, "제목이 입력되지 않았습니다"),
+
     CUSTOM_EMPTY_MEMBER_LIST(700, "회원목록이 없습니다."),
     CUSTOM_ERROR_LOGIN(701, "로그인시 에러 발생."),
     CUSTOM_ERROR_NOT_FOUND_USER(702, "아이디 혹은 패스워드를 확인해주세요"),

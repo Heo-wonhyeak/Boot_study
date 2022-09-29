@@ -127,3 +127,9 @@ CHANGE COLUMN `event_idx` `board_idx` BIGINT NOT NULL ;
 
 ALTER TABLE `dev`.`HUGO_USER_INFO`
 CHANGE COLUMN `birth_dat` `birth_day` DATE NOT NULL ;
+
+ALTER TABLE `dev`.`HUGO_BOARD`
+CHANGE COLUMN `board_idx` `board_idx` BIGINT NOT NULL AUTO_INCREMENT ;
+
+ALTER TABLE `dev`.`HUGO_BOARD`
+CHANGE COLUMN `boarder` `boarder` VARCHAR(50) NOT NULL DEFAULT 'freeBoard' ;
