@@ -102,7 +102,6 @@ public class MemberLogic {
                 .build();
     }
 
-    @Transactional
     public ApiResultObjectDto loginByIdLogic(HugoLoginReqModel reqModel , HttpServletRequest request) {
         //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
@@ -242,16 +241,16 @@ public class MemberLogic {
         //리턴해줄 object map 선언
         Map<String, String>resultMap = new HashMap<>();
 
-        // 비밀번호 검증 API 통과 후 삭제 진행
-        String CheckedPwd = memberService.pwdCheckById(reqModel.getId());
+        // 아이디로 회원 정보 가져오기
+        HugoUserInfoModel findUser = memberService.findHugoMemberInfoById(reqModel.getId());
 
-        // 아이디로 가져온 비밀번호가 비었다면 회원정보는 없음
-        if("".equals(CheckedPwd) || CheckedPwd == null) {
+        // 회원 정보가 비었다면
+        if(findUser == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_FOUND_USER.code();
             log.error("회원정보가 없습니다");
         } else {
             // id로 가져온 비밀번호와 reqModel 의 비밀번호가 같으면
-            if(CheckedPwd.equals(reqModel.getPwd())) {
+            if(findUser.getPwd().equals(reqModel.getPwd())) {
                 memberService.deleteHugoUserInfo(reqModel.getId(), reqModel.getPwd());
                 resultMap.put("id", reqModel.getId());
             } else {

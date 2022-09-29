@@ -75,7 +75,7 @@ public class HugoBoardLogic {
             }catch (Exception e) {
                 log.error("error >> {}",e.toString());
             }
-            // 당연히 여기도 null 
+            // 당연히 여기도 null
             resultMap.put("boardIdx", hugoBoardModel.getBoardIdx());
         }
 
