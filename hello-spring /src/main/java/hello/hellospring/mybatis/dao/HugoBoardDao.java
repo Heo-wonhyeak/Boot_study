@@ -1,10 +1,8 @@
 package hello.hellospring.mybatis.dao;
 
 import hello.hellospring.mybatis.model.HugoBoardModel;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -31,6 +29,7 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 상세보기
+     *
      * @param boardIdx
      * @return
      */
@@ -39,8 +38,20 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 삭제
+     *
      * @param boardIdx
      */
     @Delete("delete from HUGO_BOARD where board_idx = #{boardIdx}")
     void deleteHugoBoard(Long boardIdx);
+
+    @Update("update hugo_board " +
+            "set " +
+            "title = #{title }, " +
+            "content = #{content , jdbcType=VARCHAR}, " +
+            "event_period = #{eventPeriod , jdbcType=VARCHAR}, " +
+            "ofile = #{oFile , jdbcType=VARCHAR}, " +
+            "write_header = #{writeHeader,jdbcType=VARCHAR}, " +
+            "boarder = #{boarder} " +
+            " where board_idx = #{boardIdx}")
+    void updateHugoBoard(HugoUpdateBoardReqModel reqModel);
 }

@@ -1,6 +1,7 @@
 package hello.hellospring.controller.rest;
 
 import hello.hellospring.logic.HugoBoardLogic;
+import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import lombok.extern.slf4j.Slf4j;
@@ -37,5 +38,10 @@ public class BoardRestController {
     @PostMapping(value = "/delete")
     public ResponseEntity<ApiResultObjectDto> deleteHugoBoard(@RequestParam Long boardIdx) {
         return ResponseEntity.ok(hugoBoardLogic.deleteHugoBoard(boardIdx));
+    }
+
+    @PostMapping(value = "/update")
+    public ResponseEntity<ApiResultObjectDto> updateHugoBoard(@RequestBody HugoUpdateBoardReqModel reqModel) {
+        return ResponseEntity.ok(hugoBoardLogic.updateHugoBoard(reqModel));
     }
 }

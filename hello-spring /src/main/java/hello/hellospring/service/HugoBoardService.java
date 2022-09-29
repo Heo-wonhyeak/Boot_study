@@ -2,6 +2,7 @@ package hello.hellospring.service;
 
 import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +49,13 @@ public class HugoBoardService {
      */
     public void deleteHugoBoard(Long boardIdx) {
         hugoBoardDao.deleteHugoBoard(boardIdx);
+    }
+
+    /**
+     * 게시글 업데이트
+     * @param reqModel
+     */
+    public void updateHugoBoard(HugoUpdateBoardReqModel reqModel) {
+        hugoBoardDao.updateHugoBoard(reqModel);
     }
 }

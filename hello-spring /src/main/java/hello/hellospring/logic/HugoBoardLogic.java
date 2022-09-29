@@ -3,6 +3,7 @@ package hello.hellospring.logic;
 import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.service.HugoBoardService;
@@ -119,6 +120,31 @@ public class HugoBoardLogic {
             resultMap.put("boardIdx", boardIdx);
         }
 
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    public ApiResultObjectDto updateHugoBoard(HugoUpdateBoardReqModel reqModel) {
+        // 결과 코드 기본 ok
+        int resultCode = HttpStatus.OK.value();
+        // 결과 선언해줄 resultMap 선언
+        Map<String, Object> resultMap = new HashMap<>();
+
+        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+        if(hugoBoardModel == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
+            log.error("해당 번호의 게시글은 존재하지 않습니다");
+        } else {
+            if("".equals(reqModel.getTitle())){
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_TITLE.code();
+                log.error("제목이 입력되지 않았습니다");
+            } else {
+                hugoBoardService.updateHugoBoard(reqModel);
+                resultMap.put("updateBoard",reqModel);
+            }
+        }
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(resultMap)
