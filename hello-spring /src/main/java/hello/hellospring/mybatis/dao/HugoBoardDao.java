@@ -25,4 +25,12 @@ public interface HugoBoardDao {
             "values (#{title } , #{content , jdbcType=VARCHAR}, #{eventPeriod , jdbcType=VARCHAR}, " +
             "#{id } ,#{oFile , jdbcType=VARCHAR},#{writeHeader,jdbcType=VARCHAR},#{boarder})")
     void writeHugoBoard(HugoBoardModel hugoBoardModel);
+
+    /**
+     * 게시판 상세보기
+     * @param boardIdx
+     * @return
+     */
+    @Select("select * from HUGO_BOARD where board_idx = #{boardIdx}")
+    HugoBoardModel selectBoard(Long boardIdx);
 }

@@ -84,4 +84,23 @@ public class HugoBoardLogic {
                 .result(resultMap)
                 .build();
     }
+
+    public ApiResultObjectDto selectHugoBoard(Long boardIdx) {
+        // 결과 코드 기본 ok
+        int resultCode = HttpStatus.OK.value();
+        // 결과 선언해줄 resultMap 선언
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if(boardIdx == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_IDX.code();
+            log.error("boardIdx 값을 입력해주세요");
+        }
+        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
+        resultMap.put("hugoBoardModel", hugoBoardModel);
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
 }

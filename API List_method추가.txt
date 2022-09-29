@@ -28,11 +28,11 @@ API
 
  ======================= 회원 로직 9월 28일 밤까지 =====================================
 
- 5. 게시글 글쓰기 API ("/write") - method : POST
+ 5. 게시글 글쓰기 API ("/write") - method : POST 
 
   BoardRestController
 
- 6. 게시글 상세보기 API ("/detail") - method : GET
+ 6. 게시글 상세보기 API ("/detail/{boardIdx}") - method : GET
 
   BoardRestController
 

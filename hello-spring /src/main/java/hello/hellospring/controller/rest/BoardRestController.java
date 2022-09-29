@@ -24,8 +24,13 @@ public class BoardRestController {
     }
 
     @PostMapping(value = "/write")
-    public ResponseEntity<ApiResultObjectDto> writeHugoBoard(@RequestBody HugoWriteBoardReqModel reqModel){
+    public ResponseEntity<ApiResultObjectDto> writeHugoBoard(@RequestBody HugoWriteBoardReqModel reqModel) {
         ApiResultObjectDto apiResultObjectDto = hugoBoardLogic.writeHugoBoardLogic(reqModel);
         return ResponseEntity.ok(apiResultObjectDto);
+    }
+
+    @GetMapping(value = "/detail/{boardIdx}")
+    public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@RequestParam Long boardIdx) {
+        return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx));
     }
 }
