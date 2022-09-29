@@ -58,4 +58,12 @@ public class HugoBoardService {
     public void updateHugoBoard(HugoUpdateBoardReqModel reqModel) {
         hugoBoardDao.updateHugoBoard(reqModel);
     }
+
+    /**
+     * 게시글 조회수 증가
+     * @param boardIdx
+     */
+    public void updateVisitCount(Long boardIdx) {
+        hugoBoardDao.updateVisitCount(boardIdx);
+    }
 }

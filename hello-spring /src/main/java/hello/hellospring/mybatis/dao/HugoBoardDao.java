@@ -44,6 +44,10 @@ public interface HugoBoardDao {
     @Delete("delete from HUGO_BOARD where board_idx = #{boardIdx}")
     void deleteHugoBoard(Long boardIdx);
 
+    /**
+     * 게시글 수정
+     * @param reqModel
+     */
     @Update("update hugo_board " +
             "set " +
             "title = #{title }, " +
@@ -54,4 +58,15 @@ public interface HugoBoardDao {
             "boarder = #{boarder} " +
             " where board_idx = #{boardIdx}")
     void updateHugoBoard(HugoUpdateBoardReqModel reqModel);
+
+
+    /**
+     * 게시글 조횟수 증가
+     * @param boardIdx
+     */
+    @Update("update hugo_board " +
+            "set " +
+            "visit_count = visit_count+1 " +
+            "where board_idx = #{boardIdx}")
+    void updateVisitCount(Long boardIdx);
 }

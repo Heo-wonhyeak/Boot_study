@@ -3,6 +3,7 @@ package hello.hellospring.logic;
 import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.req.model.board.HugoSelectBoardReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
@@ -86,7 +87,7 @@ public class HugoBoardLogic {
                 .build();
     }
 
-    public ApiResultObjectDto selectHugoBoard(Long boardIdx) {
+    public ApiResultObjectDto selectHugoBoard(Long boardIdx , String id) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
         // 결과 선언해줄 resultMap 선언
@@ -97,6 +98,16 @@ public class HugoBoardLogic {
             log.error("boardIdx 값을 입력해주세요");
         }
         HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
+        log.error("loginId = {}",id);
+        log.error("boarderId = {}",hugoBoardModel.getId());
+
+        // 작성자와 조회하는 사람의 아이디가 같다면
+        if(hugoBoardModel.getId().equals(id)) {
+            log.debug("게시글 작성자는 조회수가 증가하지 않습니다");
+        } else {
+            hugoBoardService.updateVisitCount(boardIdx);
+            log.debug("조회수 1 증가");
+        }
         resultMap.put("hugoBoardModel", hugoBoardModel);
 
         return ApiResultObjectDto.builder()

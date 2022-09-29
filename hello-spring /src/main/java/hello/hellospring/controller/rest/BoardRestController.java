@@ -1,10 +1,12 @@
 package hello.hellospring.controller.rest;
 
 import hello.hellospring.logic.HugoBoardLogic;
+import hello.hellospring.req.model.board.HugoSelectBoardReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +32,10 @@ public class BoardRestController {
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
-    @GetMapping(value = "/detail/{boardIdx}")
-    public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@RequestParam Long boardIdx) {
-        return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx));
+    @GetMapping(value = "/detail/{boardIdx}/{id}")
+    public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@RequestParam Long boardIdx,
+                                                              @RequestParam String id) {
+        return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx,id));
     }
 
     @PostMapping(value = "/delete")
