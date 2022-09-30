@@ -29,6 +29,7 @@ public interface HugoBoardDao {
     @Insert("insert into HUGO_BOARD (title,content,event_period,id,ofile,write_header,boarder) \n" +
             "values (#{title } , #{content , jdbcType=VARCHAR}, #{eventPeriod , jdbcType=VARCHAR}, " +
             "#{id } ,#{oFile , jdbcType=VARCHAR},#{writeHeader,jdbcType=VARCHAR},#{boarder})")
+    @Options(useGeneratedKeys = true, keyProperty = "boardIdx", keyColumn = "boardIdx")
     void writeHugoBoard(HugoBoardModel hugoBoardModel);
 
     /**

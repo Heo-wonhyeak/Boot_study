@@ -73,20 +73,10 @@ public class HugoBoardLogic {
 
             try {
                 hugoBoardService.writeHugoBoard(hugoBoardModel);
-                // 해당값이 null 이 들어옴.. hugoBoardService.writeHugoBoard(hugoBoardModel); 해당 메서드 생성할때 Idx 값이 생성되는거 아닌지..
-                /*
-                    @Reply
-                    @author 안지호
-                    TODO
-                      Dao interface 에서 가져오는 방법이 있음
-                      HugoUserInfoDao 클래스 line 25 @Option 어노테이션 구글링 해보면 알수있음
-                 */
-
                 log.debug("key >> {}",hugoBoardModel.getBoardIdx());
             }catch (Exception e) {
                 log.error("error >> {}",e.toString());
             }
-            // 당연히 여기도 null
             resultMap.put("boardIdx", hugoBoardModel.getBoardIdx());
         }
 
