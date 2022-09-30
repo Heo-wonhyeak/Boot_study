@@ -4,6 +4,7 @@ import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
+import hello.hellospring.req.model.board.HugoBoardReplyUpdateReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 게시판 글쓰기
+     * 게시판 글쓰기 서비스
      * @param hugoBoardModel
      */
     public void writeHugoBoard(HugoBoardModel hugoBoardModel) {
@@ -38,7 +39,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 게시판 상세보기
+     * 게시판 상세보기 서비스
      * @param boardIdx
      * @return
      */
@@ -48,7 +49,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 게시글 삭제
+     * 게시글 삭제 서비스
      * @param boardIdx
      */
     public void deleteHugoBoard(Long boardIdx) {
@@ -56,7 +57,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 게시글 업데이트
+     * 게시글 업데이트 서비스
      * @param reqModel
      */
     public void updateHugoBoard(HugoUpdateBoardReqModel reqModel) {
@@ -64,7 +65,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 게시글 조회수 증가
+     * 게시글 조회수 증가 서비스
      * @param boardIdx
      */
     public void updateVisitCount(Long boardIdx) {
@@ -72,7 +73,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 좋아요 테이블 만들기
+     * 좋아요 테이블 만들기 서비스
      * @param hugoBoardLikeModel
      */
     public void insertLikeCountBoard(HugoBoardLikeModel hugoBoardLikeModel) {
@@ -80,7 +81,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 좋아요시 테이블 상태변경
+     * 좋아요시 테이블 상태변경 서비스
      * @param likeIdx
      */
     public void updateLikeCountBoard(Long likeIdx) {
@@ -88,7 +89,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 좋아요 취소시 테이블 상태변경
+     * 좋아요 취소시 테이블 상태변경 서비스
      * @param likeIdx
      */
     public void updateDislikeCountBoard(Long likeIdx) {
@@ -96,7 +97,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 좋아요 수 증가
+     * 좋아요 수 증가 서비스
      * @param boardIdx
      */
     public void updateLikeCount(Long boardIdx) {
@@ -104,7 +105,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 좋아요 수 감소
+     * 좋아요 수 감소 서비스
      * @param boardIdx
      */
     public void updateDisLikeCount(Long boardIdx) {
@@ -112,7 +113,7 @@ public class HugoBoardService {
     }
 
     /**
-     * id 와 boardIdx 로 좋아요 테이블 존재 여부 확인
+     * id 와 boardIdx 로 좋아요 테이블 존재 여부 확인 서비스
      * @param id
      * @param boardIdx
      */
@@ -121,7 +122,7 @@ public class HugoBoardService {
     }
 
     /**
-     * 댓글 쓰기
+     * 댓글 쓰기 서비스
      * @param hugoBoardReplyModel
      */
     public void writeHugoBoardReply(HugoBoardReplyModel hugoBoardReplyModel) {
@@ -129,11 +130,28 @@ public class HugoBoardService {
     }
 
     /**
-     * 게시글 댓글 리스트 가져오기
+     * 게시글 댓글 리스트 가져오기 서비스
      * @param boardIdx
      * @return
      */
     public List<HugoBoardReplyModel> listHugoBoardReplyByBoardIdx(Long boardIdx) {
         return hugoBoardDao.listHugoBoardReplyByBoardIdx(boardIdx);
+    }
+
+    /**
+     * 댓글 수정 서비스
+     * @param reqModel
+     */
+    public void updateHugoBoardReply(HugoBoardReplyUpdateReqModel reqModel) {
+        hugoBoardDao.updateHugoBoardReply(reqModel);
+    }
+
+    /**
+     * 댓글 번호로 댓글 가져오기 서비스
+     * @param boardReplyIdx
+     * @return
+     */
+    public HugoBoardReplyModel selectReply(Long boardReplyIdx) {
+        return hugoBoardDao.selectReply(boardReplyIdx);
     }
 }

@@ -135,6 +135,11 @@ public class HugoBoardLogic {
                 .build();
     }
 
+    /**
+     * 게시글 삭제 로직
+     * @param boardIdx
+     * @return
+     */
     public ApiResultObjectDto deleteHugoBoard(Long boardIdx) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
@@ -156,6 +161,11 @@ public class HugoBoardLogic {
                 .build();
     }
 
+    /**
+     * 게시글 수정 로직
+     * @param reqModel
+     * @return
+     */
     public ApiResultObjectDto updateHugoBoard(HugoUpdateBoardReqModel reqModel) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
@@ -181,6 +191,11 @@ public class HugoBoardLogic {
                 .build();
     }
 
+    /**
+     * 게시글 좋아요 로직
+     * @param reqModel
+     * @return
+     */
     public ApiResultObjectDto likeHugoBoard(HugoBoardLikeReqModel reqModel) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
@@ -241,6 +256,11 @@ public class HugoBoardLogic {
                 .build();
     }
 
+    /**
+     * 게시글 댓글 작성
+     * @param reqModel
+     * @return
+     */
     public ApiResultObjectDto writeHugoBoardReply(HugoBoardReplyReqModel reqModel) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
@@ -262,6 +282,37 @@ public class HugoBoardLogic {
 
             hugoBoardService.writeHugoBoardReply(hugoBoardReplyModel);
             resultMap.put("HugoBoardReplyModel", hugoBoardReplyModel);
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    /**
+     * 댓글 수정 로직
+     * @param reqModel
+     * @return
+     */
+    public ApiResultObjectDto updateHugoBoardReply(HugoBoardReplyUpdateReqModel reqModel) {
+        // 결과 코드 기본 ok
+        int resultCode = HttpStatus.OK.value();
+        // 결과 선언해줄 resultMap 선언
+        Map<String, Object> resultMap = new HashMap<>();
+
+        // 댓글 번호로 댓글 가져오기
+        HugoBoardReplyModel hugoBoardReplyModel = hugoBoardService.selectReply(reqModel.getBoardReplyIdx());
+
+        // 댓글번호로 조회한 댓글이 없다면
+        if (hugoBoardReplyModel == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_REPLY.code();
+            log.error("댓글이 존재하지 않습니다");
+        } else {
+            hugoBoardService.updateHugoBoardReply(reqModel);
+            hugoBoardReplyModel = hugoBoardService.selectReply(reqModel.getBoardReplyIdx());
+
+            resultMap.put("updateReply", hugoBoardReplyModel);
         }
 
         return ApiResultObjectDto.builder()

@@ -57,7 +57,7 @@ API
 
  BoardRestController
 
-12. 댓글 수정 API ("/reply/modify") - method : POST
+12. 댓글 수정 API ("/reply/update") - method : POST - o 
 
  BoardRestController
 

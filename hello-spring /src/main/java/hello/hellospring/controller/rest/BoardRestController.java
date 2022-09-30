@@ -55,4 +55,9 @@ public class BoardRestController {
     public ResponseEntity<ApiResultObjectDto> writeHugoBoardReply(@RequestBody HugoBoardReplyReqModel reqModel) {
         return ResponseEntity.ok(hugoBoardLogic.writeHugoBoardReply(reqModel));
     }
+
+    @PostMapping("/reply/update")
+    public ResponseEntity<ApiResultObjectDto> updateHugoBoardReply(@RequestBody HugoBoardReplyUpdateReqModel reqModel) {
+        return ResponseEntity.ok(hugoBoardLogic.updateHugoBoardReply(reqModel));
+    }
 }

@@ -3,6 +3,7 @@ package hello.hellospring.mybatis.dao;
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
+import hello.hellospring.req.model.board.HugoBoardReplyUpdateReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import org.apache.ibatis.annotations.*;
 
@@ -144,9 +145,26 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 댓글 가져오기
+     *
      * @param boardIdx
      * @return
      */
     @Select("select * from hugo_board_reply where board_idx = #{boardIdx }")
     List<HugoBoardReplyModel> listHugoBoardReplyByBoardIdx(Long boardIdx);
+
+    /**
+     * 게시글 댓글 업데이트
+     * @param hugoBoardReplyUpdateReqModel
+     */
+    @Update("update hugo_board_reply " +
+            "set content = #{content } where board_reply_idx = #{boardReplyIdx }")
+    void updateHugoBoardReply(HugoBoardReplyUpdateReqModel hugoBoardReplyUpdateReqModel);
+
+    /**
+     * 댓글 번호로 댓글 가져오기
+     * @param boardReplyIdx
+     * @return
+     */
+    @Select("select * from hugo_board_reply where board_reply_idx = #{boardReplyIdx }")
+    HugoBoardReplyModel selectReply(Long boardReplyIdx);
 }
