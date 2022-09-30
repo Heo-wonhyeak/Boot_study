@@ -87,6 +87,12 @@ public class HugoBoardLogic {
                 .build();
     }
 
+    /**
+     * 게시글 상세보기 로직
+     * @param boardIdx
+     * @param id
+     * @return
+     */
     public ApiResultObjectDto selectHugoBoard(Long boardIdx , String id) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
@@ -98,6 +104,21 @@ public class HugoBoardLogic {
             log.error("boardIdx 값을 입력해주세요");
         }
         HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
+
+        // 게시글 존재 여부 확인
+        if (hugoBoardModel == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
+            log.error("게시글이 존재하지 않습니다");
+        } else {
+            // 해당 게시글의 댓글 목록 가져오기
+            List<HugoBoardReplyModel> hugoBoardReplyModels = hugoBoardService.listHugoBoardReplyByBoardIdx(boardIdx);
+
+            if(hugoBoardReplyModels == null || hugoBoardReplyModels.size() == 0) {
+                log.debug("댓글이 존재하지 않습니다");
+            } else {
+                resultMap.put("hugoBoardReplyModels", hugoBoardReplyModels);
+            }
+        }
 
         // 작성자와 조회하는 사람의 아이디가 같다면
         if(hugoBoardModel.getId().equals(id)) {

@@ -13,6 +13,7 @@ public interface HugoBoardDao {
 
     /**
      * 단순 리스트 가져오기 - 초기 테스트용
+     *
      * @return
      */
     @Select("SELECT * FROM HUGO_BOARD")
@@ -20,6 +21,7 @@ public interface HugoBoardDao {
 
     /**
      * 게시판 글쓰기
+     *
      * @param hugoBoardModel
      */
     @Insert("insert into HUGO_BOARD (title,content,event_period,id,ofile,write_header,boarder) \n" +
@@ -29,6 +31,7 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 상세보기
+     *
      * @param boardIdx
      * @return
      */
@@ -37,6 +40,7 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 삭제
+     *
      * @param boardIdx
      */
     @Delete("delete from HUGO_BOARD where board_idx = #{boardIdx}")
@@ -44,6 +48,7 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 수정
+     *
      * @param reqModel
      */
     @Update("update hugo_board " +
@@ -60,6 +65,7 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 조횟수 증가
+     *
      * @param boardIdx
      */
     @Update("update hugo_board " +
@@ -70,6 +76,7 @@ public interface HugoBoardDao {
 
     /**
      * 좋아요 테이블 만들기
+     *
      * @param likeModel
      */
     @Insert("insert into hugo_board_like (board_idx, id) " +
@@ -78,6 +85,7 @@ public interface HugoBoardDao {
 
     /**
      * 좋아요시 테이블 상태변경
+     *
      * @param likeIdx
      */
     @Update("update hugo_board_like set " +
@@ -86,6 +94,7 @@ public interface HugoBoardDao {
 
     /**
      * 좋아요 취소시 테이블 상태변경
+     *
      * @param likeIdx
      */
     @Update("update hugo_board_like set " +
@@ -94,6 +103,7 @@ public interface HugoBoardDao {
 
     /**
      * 좋아요 수 증가
+     *
      * @param boardIdx
      */
     @Update("update hugo_board " +
@@ -104,6 +114,7 @@ public interface HugoBoardDao {
 
     /**
      * 좋아요 수 감소
+     *
      * @param boardIdx
      */
     @Update("update hugo_board " +
@@ -114,6 +125,7 @@ public interface HugoBoardDao {
 
     /**
      * id 와 boardIdx 로 좋아요 테이블 존재 여부 확인
+     *
      * @param id
      * @param boardIdx
      * @return
@@ -123,9 +135,18 @@ public interface HugoBoardDao {
 
     /**
      * 댓글 쓰기
+     *
      * @param hugoBoardReplyModel
      */
     @Insert("insert into hugo_board_reply (nick_name , content, board_idx) " +
             "values (#{nickName },#{content }, #{boardIdx})")
     void writeHugoBoardReply(HugoBoardReplyModel hugoBoardReplyModel);
+
+    /**
+     * 게시글 댓글 가져오기
+     * @param boardIdx
+     * @return
+     */
+    @Select("select * from hugo_board_reply where board_idx = #{boardIdx }")
+    List<HugoBoardReplyModel> listHugoBoardReplyByBoardIdx(Long boardIdx);
 }

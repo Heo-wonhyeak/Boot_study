@@ -34,37 +34,38 @@ API
 
  6. 게시글 상세보기 API ("/detail/{boardIdx}") - method : GET - o
 
-    -조회수 CountUp
+    - 조회수 CountUp - o
+    - 해당 게시글 댓글 list 받아오기 - o
 
   BoardRestController
 
- 7. 게시글 수정 API ("/update") - method : POST 
+ 7. 게시글 수정 API ("/update") - method : POST - o
 
   BoardRestController
 
- 8. 게시글 삭제 API ("/delete") - method : POST
+ 8. 게시글 삭제 API ("/delete") - method : POST - o
 
   BoardRestController
 
- 9. 좋아요 CountUp / Down API ("/like") - method : POST
+ 9. 좋아요 CountUp / Down API ("/like") - method : POST - o
 
  10. FileUpload API - 질문하기 
 
  =====================================================================================
 
-10. 댓글 쓰기 API ("/reply/write") - method : POST
+11. 댓글 쓰기 API ("/reply/write") - method : POST - o 
 
  BoardRestController
 
-11. 댓글 수정 API ("/reply/modify") - method : POST
+12. 댓글 수정 API ("/reply/modify") - method : POST
 
  BoardRestController
 
-12. 댓글 삭제 API ("/reply/delete") - method : POST
+13. 댓글 삭제 API ("/reply/delete") - method : POST
 
  BoardRestController
 
-13. 댓글 신고 API ("/reply/declaration") - method : POST
+14. 댓글 신고 API ("/reply/declaration") - method : POST
 
  BoardRestController
 

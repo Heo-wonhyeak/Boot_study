@@ -127,4 +127,13 @@ public class HugoBoardService {
     public void writeHugoBoardReply(HugoBoardReplyModel hugoBoardReplyModel) {
         hugoBoardDao.writeHugoBoardReply(hugoBoardReplyModel);
     }
+
+    /**
+     * 게시글 댓글 리스트 가져오기
+     * @param boardIdx
+     * @return
+     */
+    public List<HugoBoardReplyModel> listHugoBoardReplyByBoardIdx(Long boardIdx) {
+        return hugoBoardDao.listHugoBoardReplyByBoardIdx(boardIdx);
+    }
 }
