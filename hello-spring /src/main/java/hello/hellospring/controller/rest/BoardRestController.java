@@ -37,8 +37,8 @@ public class BoardRestController {
     }
 
     @PostMapping(value = "/delete")
-    public ResponseEntity<ApiResultObjectDto> deleteHugoBoard(@RequestParam Long boardIdx) {
-        return ResponseEntity.ok(hugoBoardLogic.deleteHugoBoard(boardIdx));
+    public ResponseEntity<ApiResultObjectDto> deleteHugoBoard(@RequestBody HugoBoardDeleteReqModel reqModel) {
+        return ResponseEntity.ok(hugoBoardLogic.deleteHugoBoard(reqModel));
     }
 
     @PostMapping(value = "/update")

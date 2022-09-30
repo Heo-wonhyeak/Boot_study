@@ -137,25 +137,30 @@ public class HugoBoardLogic {
 
     /**
      * 게시글 삭제 로직
-     * TODO 삭제 요청 Id를 받아서 req 객체로 함께 받고 작성자 Id 와 유효성 검사후 삭제 진행
-     * @param boardIdx
+     * @param reqModel
      * @return
      */
-    public ApiResultObjectDto deleteHugoBoard(Long boardIdx) {
+    public ApiResultObjectDto deleteHugoBoard(HugoBoardDeleteReqModel reqModel) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
         // 결과 선언해줄 resultMap 선언
         Map<String, Object> resultMap = new HashMap<>();
 
-        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
+        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
         if(hugoBoardModel == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
             log.error("해당 번호의 게시글은 존재하지 않습니다");
         } else {
-            hugoBoardService.deleteHugoBoard(boardIdx);
-            resultMap.put("boardIdx", boardIdx);
+            // 작성자와 삭제 요청자가 같은 아이디 인지 확인
+            if(hugoBoardModel.getId().equals(reqModel.getId())) {
+                hugoBoardService.deleteHugoBoard(reqModel.getBoardIdx());
+                //~~ 님 ~~ 번 글 삭제 처리되었습니다 결과 반환
+                resultMap.put("reqModel", reqModel);
+            } else {
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_CORRECT_USER.code();
+                log.error("작성자 본인만 삭제가 가능합니다");
+            }
         }
-
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(resultMap)
