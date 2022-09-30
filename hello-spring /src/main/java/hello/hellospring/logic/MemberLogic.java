@@ -49,7 +49,6 @@ public class MemberLogic {
 
     /**
      * 회원가입 비지니스 로직
-     * TODO nickName 댓글에서 unique 값으로 사용하기 위해 nickName 유효성 검사 추가 후 회원가입 진행
      * @param reqModel
      * @return
      */
@@ -71,30 +70,42 @@ public class MemberLogic {
 
             //아이디가 존재하면 에러 코드 값 주입
             if (userCount > 0) {
-                resultCode = 552;
-                log.error("이미 존재하는 아이디 입니다. ID :: " + reqModel.getId());
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_ID_OVERLAP.code();
+                log.error("이미 존재하는 아이디 입니다. ID :: {}", reqModel.getId());
             }
             //아이디가 존재하지 않으므로 저장 로직 시작
             if (userCount == 0) {
-                HugoUserInfoModel hugoUserInfoModel = new HugoUserInfoModel();
-                hugoUserInfoModel.setId(reqModel.getId());
-                hugoUserInfoModel.setPwd(reqModel.getPwd());
-                hugoUserInfoModel.setName(reqModel.getName());
-                hugoUserInfoModel.setNickName(reqModel.getNickName());
-                hugoUserInfoModel.setEmail(reqModel.getEmail());
-                hugoUserInfoModel.setBirthDay(reqModel.getBirthDay());
-                hugoUserInfoModel.setGender(reqModel.getGender());
-                hugoUserInfoModel.setCallNum(reqModel.getCallNum());
-                hugoUserInfoModel.setInterest(reqModel.getInterest());
 
-                try {
-                    //memberService.saveHugoUserInfo(hugoUserInfoModel);
-                    memberService.saveHugoUserInfo(hugoUserInfoModel);
-                    log.error("key >> " + hugoUserInfoModel.getIdx());
-                } catch (Exception e) {
-                    log.error("error >> "+ e.toString());
+                //닉네임 존재 여부 개수 확인
+                int nickNameCount = memberService.getHugoUserInfoByNickName(reqModel.getNickName());
+
+                // 존재하면 생성 불가 (Unique)
+                if(nickNameCount > 0) {
+                    resultCode = ErrorCodeEnum.CUSTOM_ERROR_NICKNAME_OVERLAP.code();
+                    log.error("이미 존재하는 닉네임 입니다. nickName :: {}",reqModel.getNickName());
                 }
-                resultMap.put("savedUserId", reqModel.getId());
+
+                if (nickNameCount == 0) {
+                    HugoUserInfoModel hugoUserInfoModel = new HugoUserInfoModel();
+                    hugoUserInfoModel.setId(reqModel.getId());
+                    hugoUserInfoModel.setPwd(reqModel.getPwd());
+                    hugoUserInfoModel.setName(reqModel.getName());
+                    hugoUserInfoModel.setNickName(reqModel.getNickName());
+                    hugoUserInfoModel.setEmail(reqModel.getEmail());
+                    hugoUserInfoModel.setBirthDay(reqModel.getBirthDay());
+                    hugoUserInfoModel.setGender(reqModel.getGender());
+                    hugoUserInfoModel.setCallNum(reqModel.getCallNum());
+                    hugoUserInfoModel.setInterest(reqModel.getInterest());
+
+                    try {
+                        //memberService.saveHugoUserInfo(hugoUserInfoModel);
+                        memberService.saveHugoUserInfo(hugoUserInfoModel);
+                        log.error("key >> " + hugoUserInfoModel.getIdx());
+                    } catch (Exception e) {
+                        log.error("error >> "+ e.toString());
+                    }
+                    resultMap.put("savedUserId", reqModel.getId());
+                }
             }
         }
         return ApiResultObjectDto.builder()

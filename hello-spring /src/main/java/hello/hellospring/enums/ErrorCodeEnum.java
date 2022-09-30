@@ -6,6 +6,9 @@ public enum ErrorCodeEnum {
     FILE_NOT_FOUND(523, "File Not Found Exception"),
     IOE_ERROR(524, "IOE Exception"),
 
+    CUSTOM_ERROR_ID_OVERLAP(552,"이미 존재하는 아이디 입니다."),
+    CUSTOM_ERROR_NICKNAME_OVERLAP(553, "이미 존재하는 닉네임 입니다."),
+
     CUSTOM_ERROR_NOT_TITLE(600, "제목이 입력되지 않았습니다"),
     CUSTOM_ERROR_NULL_BOARD_IDX(601, "게시판 번호를 입력해주세요"),
     CUSTOM_ERROR_NULL_BOARD_DETAIL(602, "해당 번호의 게시글은 존재하지 않습니다"),

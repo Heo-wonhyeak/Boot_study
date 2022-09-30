@@ -96,8 +96,12 @@ public class MemberService {
         hugoUserInfoDao.deleteHugoUserInfo(id,pwd);
     }
 
-    public String pwdCheckById(String id) {
-        String checkedPwd = hugoUserInfoDao.pwdCheckById(id);
-        return checkedPwd;
+    /**
+     * 닉네임 유효성 검사 서비스 
+     * @param nickName
+     * @return
+     */
+    public int getHugoUserInfoByNickName(String nickName) {
+        return hugoUserInfoDao.getHugoUserInfoByNickName(nickName);
     }
 }

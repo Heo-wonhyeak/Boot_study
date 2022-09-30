@@ -56,4 +56,12 @@ public interface HugoUserInfoDao {
     //아이디로 비밀번호 가져와서 입력 비밀번호와 같은지 확인
     @Select("select pwd from hugo_user_info where id = #{id }")
     String pwdCheckById(@Param("id") String id);
+
+    /**
+     * 닉네임 유효성 검증
+     * @param nickName
+     * @return
+     */
+    @Select("select count(*) from hugo_user_info where nick_name = #{nickName }")
+    int getHugoUserInfoByNickName(String nickName);
 }
