@@ -320,4 +320,38 @@ public class HugoBoardLogic {
                 .result(resultMap)
                 .build();
     }
+
+    /**
+     * 댓글 삭제 로직
+     * @param reqModel
+     * @return
+     */
+    public ApiResultObjectDto deleteHugoBoardReply(HugoBoardReplyDeleteReqModel reqModel) {
+        // resultCode 객체 선언
+        int resultCode = HttpStatus.OK.value();
+        // 결과값 담을 Map 선언
+        Map<String, Object> resultMap = new HashMap<>();
+
+        HugoBoardReplyModel hugoBoardReply = hugoBoardService.selectReply(reqModel.getBoardReplyIdx());
+
+        if(hugoBoardReply == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_REPLY.code();
+            log.error("댓글이 존재하지 않습니다");
+        } else {
+            // 요청한 nickName 과 작성자 nickName 이 같은지
+            if (reqModel.getNickName().equals(hugoBoardReply.getNickName())) {
+                hugoBoardService.deleteReply(reqModel.getBoardReplyIdx());
+                // ~~ 님 ~~ 번 댓글 삭제되었습니다
+                resultMap.put("reqModel", reqModel);
+            } else {
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_CORRECT_USER.code();
+                log.error("작성자 본인만 삭제가 가능합니다");
+            }
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
 }

@@ -60,4 +60,9 @@ public class BoardRestController {
     public ResponseEntity<ApiResultObjectDto> updateHugoBoardReply(@RequestBody HugoBoardReplyUpdateReqModel reqModel) {
         return ResponseEntity.ok(hugoBoardLogic.updateHugoBoardReply(reqModel));
     }
+
+    @PostMapping("/reply/delete")
+    public ResponseEntity<ApiResultObjectDto> deleteHugoBoardReply(@RequestBody HugoBoardReplyDeleteReqModel reqModel) {
+        return ResponseEntity.ok(hugoBoardLogic.deleteHugoBoardReply(reqModel));
+    }
 }

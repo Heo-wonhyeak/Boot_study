@@ -10,6 +10,8 @@ API
 
 2. 회원 가입 API ("/signUp") - method : POST (개발완료)
 
++ todo 닉네임 유효성 검증 (unique)
+
  MemberRestController
 
 3. 회원 정보 API ("/info/{id}") - method : GET (개발완료)
@@ -21,7 +23,7 @@ API
 
  MemberRestController
 
-4. 회원 탈퇴 API ("/resign/{id}") - method : POST (개발완료)
+4. 회원 탈퇴 API ("/resign") - method : POST (개발완료)
 
  MemberRestController
 

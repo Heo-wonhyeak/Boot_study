@@ -154,4 +154,12 @@ public class HugoBoardService {
     public HugoBoardReplyModel selectReply(Long boardReplyIdx) {
         return hugoBoardDao.selectReply(boardReplyIdx);
     }
+
+    /**
+     * 댓글 삭제 서비스
+     * @param boardReplyIdx
+     */
+    public void deleteReply(Long boardReplyIdx) {
+        hugoBoardDao.deleteReply(boardReplyIdx);
+    }
 }

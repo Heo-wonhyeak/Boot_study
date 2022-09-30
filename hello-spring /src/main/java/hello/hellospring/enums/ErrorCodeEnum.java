@@ -17,6 +17,8 @@ public enum ErrorCodeEnum {
     CUSTOM_ERROR_USER_INFO_NULL(703, "회원정보가 없습니다."),
     CUSTOM_ERROR_NOT_LOGIN(704, "로그인되어있지 않습니다"),
 
+    CUSTOM_ERROR_NOT_CORRECT_USER(710, "작성자 본인만 삭제가 가능합니다"),
+
     CUSTOM_ERROR_NOT_NULLABLE(800, "값이 없으면 안됩니다"),
 
     JSON_PARSE_EXCEPTION_ERROR(901, "JSON PARSE EXCEPTION ERROR"),

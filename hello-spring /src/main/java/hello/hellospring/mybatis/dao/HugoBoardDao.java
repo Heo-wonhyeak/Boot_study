@@ -154,6 +154,7 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 댓글 업데이트
+     *
      * @param hugoBoardReplyUpdateReqModel
      */
     @Update("update hugo_board_reply " +
@@ -162,9 +163,17 @@ public interface HugoBoardDao {
 
     /**
      * 댓글 번호로 댓글 가져오기
+     *
      * @param boardReplyIdx
      * @return
      */
     @Select("select * from hugo_board_reply where board_reply_idx = #{boardReplyIdx }")
     HugoBoardReplyModel selectReply(Long boardReplyIdx);
+
+    /**
+     * 댓글 삭제
+     * @param boardReplyIdx
+     */
+    @Delete("delete from hugo_board_reply where board_reply_idx = #{boardReplyIdx }")
+    void deleteReply(Long boardReplyIdx);
 }

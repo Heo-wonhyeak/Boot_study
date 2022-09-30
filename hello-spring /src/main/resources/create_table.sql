@@ -139,3 +139,6 @@ CHANGE COLUMN `like_idx` `like_idx` BIGINT NOT NULL AUTO_INCREMENT ;
 
 ALTER TABLE `dev`.`hugo_board_reply`
 CHANGE COLUMN `board_reply_idx` `board_reply_idx` BIGINT NOT NULL AUTO_INCREMENT ;
+
+ALTER TABLE `dev`.`HUGO_USER_INFO`
+ADD UNIQUE INDEX `nick_name_UNIQUE` (`nick_name` ASC) VISIBLE;
