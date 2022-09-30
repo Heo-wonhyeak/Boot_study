@@ -3,6 +3,7 @@ package hello.hellospring.service;
 import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.mybatis.model.HugoBoardReplyDeclarationModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.HugoBoardReplyUpdateReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
@@ -161,5 +162,13 @@ public class HugoBoardService {
      */
     public void deleteReply(Long boardReplyIdx) {
         hugoBoardDao.deleteReply(boardReplyIdx);
+    }
+
+    /**
+     * 댓글 신고 서비스
+     * @param hugoBoardReplyDeclarationModel
+     */
+    public void declarationReply(HugoBoardReplyDeclarationModel hugoBoardReplyDeclarationModel) {
+        hugoBoardDao.declarationReply(hugoBoardReplyDeclarationModel);
     }
 }

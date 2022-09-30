@@ -142,3 +142,13 @@ CHANGE COLUMN `board_reply_idx` `board_reply_idx` BIGINT NOT NULL AUTO_INCREMENT
 
 ALTER TABLE `dev`.`HUGO_USER_INFO`
 ADD UNIQUE INDEX `nick_name_UNIQUE` (`nick_name` ASC) VISIBLE;
+
+DROP TABLE `dev`.`HUGO_DECLARATION`;
+
+CREATE TABLE `dev`.`hugo_declaration` (
+  `declaration_idx` BIGINT NOT NULL AUTO_INCREMENT,
+  `reason` VARCHAR(100) NOT NULL,
+  `id` VARCHAR(50) NOT NULL,
+  `board_reply_idx` BIGINT NOT NULL,
+  `content` VARCHAR(4000) NULL,
+  PRIMARY KEY (`declaration_idx`));

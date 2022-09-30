@@ -4,6 +4,7 @@ import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.mybatis.model.HugoBoardReplyDeclarationModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
@@ -353,6 +354,41 @@ public class HugoBoardLogic {
                 resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_CORRECT_USER.code();
                 log.error("작성자 본인만 삭제가 가능합니다");
             }
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    /**
+     * 댓글 신고 로직
+     * @param reqModel
+     * @return
+     */
+    public ApiResultObjectDto declarationReply(HugoBoardReplyDeclarationReqModel reqModel) {
+        // 결과값 기본 코드
+        int resultCode = HttpStatus.OK.value();
+        // 결과 저장할 HashMap
+        Map<String, Object> resultMap = new HashMap<>();
+
+        HugoBoardReplyModel isReplyOk = hugoBoardService.selectReply(reqModel.getBoardReplyIdx());
+
+        // 댓글 존재 여부 확인
+        if (isReplyOk == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_REPLY.code();
+            log.error("해당 댓글은 존재하지 않습니다");
+        } else {
+            // 존재하면 신고 접수
+            HugoBoardReplyDeclarationModel declarationModel = new HugoBoardReplyDeclarationModel();
+            declarationModel.setReason(reqModel.getReason());
+            declarationModel.setId(reqModel.getId());
+            declarationModel.setBoardReplyIdx(reqModel.getBoardReplyIdx());
+            declarationModel.setContent(reqModel.getContent());
+
+            hugoBoardService.declarationReply(declarationModel);
+            resultMap.put("declarationModel", declarationModel);
         }
 
         return ApiResultObjectDto.builder()

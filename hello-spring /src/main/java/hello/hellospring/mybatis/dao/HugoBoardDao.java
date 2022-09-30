@@ -2,6 +2,7 @@ package hello.hellospring.mybatis.dao;
 
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.mybatis.model.HugoBoardReplyDeclarationModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.HugoBoardReplyUpdateReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
@@ -172,8 +173,17 @@ public interface HugoBoardDao {
 
     /**
      * 댓글 삭제
+     *
      * @param boardReplyIdx
      */
     @Delete("delete from hugo_board_reply where board_reply_idx = #{boardReplyIdx }")
     void deleteReply(Long boardReplyIdx);
+
+    /**
+     * 댓글 신고
+     * @param hugoBoardReplyDeclarationModel
+     */
+    @Insert("insert into hugo_declaration (reason,id,board_reply_idx,content) " +
+            "values (#{reason} , #{id} , #{boardReplyIdx } , #{content , jdbcType = VARCHAR })")
+    void declarationReply(HugoBoardReplyDeclarationModel hugoBoardReplyDeclarationModel);
 }

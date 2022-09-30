@@ -10,7 +10,7 @@ API
 
 2. 회원 가입 API ("/signUp") - method : POST (개발완료)
 
-+ todo 닉네임 유효성 검증 (unique)
++ 닉네임 유효성 검증 (unique) - o 
 
  MemberRestController
 
