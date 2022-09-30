@@ -4,10 +4,8 @@ import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
-import hello.hellospring.req.model.board.HugoBoardLikeReqModel;
-import hello.hellospring.req.model.board.HugoSelectBoardReqModel;
-import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
-import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
+import hello.hellospring.mybatis.model.HugoBoardReplyModel;
+import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.service.HugoBoardService;
 import lombok.extern.slf4j.Slf4j;
@@ -216,6 +214,35 @@ public class HugoBoardLogic {
                 resultMap.put("isLiked", false);
             }
         }
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
+                .build();
+    }
+
+    public ApiResultObjectDto writeHugoBoardReply(HugoBoardReplyReqModel reqModel) {
+        // 결과 코드 기본 ok
+        int resultCode = HttpStatus.OK.value();
+        // 결과 선언해줄 resultMap 선언
+        Map<String, Object> resultMap = new HashMap<>();
+
+        HugoBoardModel getHugoBoard = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+
+        // 게시글 번호로 조회한 게시글이 없다면 게시글 존재 x 에러
+        if (getHugoBoard == null) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
+            log.error("게시글이 존재하지 않습니다");
+        } else {
+            // 게시글이 존재한다면 댓글 작성
+            HugoBoardReplyModel hugoBoardReplyModel = new HugoBoardReplyModel();
+            hugoBoardReplyModel.setBoardIdx(reqModel.getBoardIdx());
+            hugoBoardReplyModel.setContent(reqModel.getContent());
+            hugoBoardReplyModel.setNickName(reqModel.getNickName());
+
+            hugoBoardService.writeHugoBoardReply(hugoBoardReplyModel);
+            resultMap.put("HugoBoardReplyModel", hugoBoardReplyModel);
+        }
+
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(resultMap)

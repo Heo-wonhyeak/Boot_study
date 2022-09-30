@@ -34,6 +34,8 @@ API
 
  6. 게시글 상세보기 API ("/detail/{boardIdx}") - method : GET - o
 
+    -조회수 CountUp
+
   BoardRestController
 
  7. 게시글 수정 API ("/update") - method : POST 
@@ -44,6 +46,9 @@ API
 
   BoardRestController
 
+ 9. 좋아요 CountUp / Down API ("/like") - method : POST
+
+ 10. FileUpload API - 질문하기 
 
  =====================================================================================
 

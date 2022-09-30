@@ -3,6 +3,7 @@ package hello.hellospring.service;
 import hello.hellospring.mybatis.dao.HugoBoardDao;
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,7 +117,14 @@ public class HugoBoardService {
      * @param boardIdx
      */
     public HugoBoardLikeModel selectHugoBoardLike(String id, Long boardIdx) {
-        log.error("service id = {}", id);
         return hugoBoardDao.selectHugoBoardLike(id, boardIdx);
+    }
+
+    /**
+     * 댓글 쓰기
+     * @param hugoBoardReplyModel
+     */
+    public void writeHugoBoardReply(HugoBoardReplyModel hugoBoardReplyModel) {
+        hugoBoardDao.writeHugoBoardReply(hugoBoardReplyModel);
     }
 }

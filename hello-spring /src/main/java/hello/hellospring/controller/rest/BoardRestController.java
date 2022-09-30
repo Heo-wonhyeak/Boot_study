@@ -1,10 +1,7 @@
 package hello.hellospring.controller.rest;
 
 import hello.hellospring.logic.HugoBoardLogic;
-import hello.hellospring.req.model.board.HugoBoardLikeReqModel;
-import hello.hellospring.req.model.board.HugoSelectBoardReqModel;
-import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
-import hello.hellospring.req.model.board.HugoWriteBoardReqModel;
+import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -36,7 +33,7 @@ public class BoardRestController {
     @GetMapping(value = "/detail/{boardIdx}/{id}")
     public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@RequestParam Long boardIdx,
                                                               @RequestParam String id) {
-        return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx,id));
+        return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx, id));
     }
 
     @PostMapping(value = "/delete")
@@ -52,5 +49,10 @@ public class BoardRestController {
     @PostMapping("/like")
     public ResponseEntity<ApiResultObjectDto> likeHugoBoard(@RequestBody HugoBoardLikeReqModel reqModel) {
         return ResponseEntity.ok(hugoBoardLogic.likeHugoBoard(reqModel));
+    }
+
+    @PostMapping("/reply/write")
+    public ResponseEntity<ApiResultObjectDto> writeHugoBoardReply(@RequestBody HugoBoardReplyReqModel reqModel) {
+        return ResponseEntity.ok(hugoBoardLogic.writeHugoBoardReply(reqModel));
     }
 }

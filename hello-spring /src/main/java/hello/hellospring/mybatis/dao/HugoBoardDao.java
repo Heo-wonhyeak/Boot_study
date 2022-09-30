@@ -2,6 +2,7 @@ package hello.hellospring.mybatis.dao;
 
 import hello.hellospring.mybatis.model.HugoBoardLikeModel;
 import hello.hellospring.mybatis.model.HugoBoardModel;
+import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import org.apache.ibatis.annotations.*;
 
@@ -12,7 +13,6 @@ public interface HugoBoardDao {
 
     /**
      * 단순 리스트 가져오기 - 초기 테스트용
-     *
      * @return
      */
     @Select("SELECT * FROM HUGO_BOARD")
@@ -20,7 +20,6 @@ public interface HugoBoardDao {
 
     /**
      * 게시판 글쓰기
-     *
      * @param hugoBoardModel
      */
     @Insert("insert into HUGO_BOARD (title,content,event_period,id,ofile,write_header,boarder) \n" +
@@ -30,7 +29,6 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 상세보기
-     *
      * @param boardIdx
      * @return
      */
@@ -39,7 +37,6 @@ public interface HugoBoardDao {
 
     /**
      * 게시글 삭제
-     *
      * @param boardIdx
      */
     @Delete("delete from HUGO_BOARD where board_idx = #{boardIdx}")
@@ -117,11 +114,18 @@ public interface HugoBoardDao {
 
     /**
      * id 와 boardIdx 로 좋아요 테이블 존재 여부 확인
-     *
      * @param id
      * @param boardIdx
      * @return
      */
     @Select("select * from hugo_board_like where id = #{id } and board_idx = #{boardIdx }")
     HugoBoardLikeModel selectHugoBoardLike(@Param("id") String id, @Param("boardIdx") Long boardIdx);
+
+    /**
+     * 댓글 쓰기
+     * @param hugoBoardReplyModel
+     */
+    @Insert("insert into hugo_board_reply (nick_name , content, board_idx) " +
+            "values (#{nickName },#{content }, #{boardIdx})")
+    void writeHugoBoardReply(HugoBoardReplyModel hugoBoardReplyModel);
 }

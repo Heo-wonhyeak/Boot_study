@@ -136,3 +136,6 @@ CHANGE COLUMN `boarder` `boarder` VARCHAR(50) NOT NULL DEFAULT 'freeBoard' ;
 
 ALTER TABLE `dev`.`hugo_board_like`
 CHANGE COLUMN `like_idx` `like_idx` BIGINT NOT NULL AUTO_INCREMENT ;
+
+ALTER TABLE `dev`.`hugo_board_reply`
+CHANGE COLUMN `board_reply_idx` `board_reply_idx` BIGINT NOT NULL AUTO_INCREMENT ;
