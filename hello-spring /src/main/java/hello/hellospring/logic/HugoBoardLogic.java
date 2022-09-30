@@ -137,6 +137,7 @@ public class HugoBoardLogic {
 
     /**
      * 게시글 삭제 로직
+     * TODO 삭제 요청 Id를 받아서 req 객체로 함께 받고 작성자 Id 와 유효성 검사후 삭제 진행
      * @param boardIdx
      * @return
      */

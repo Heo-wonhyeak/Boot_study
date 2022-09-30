@@ -49,6 +49,7 @@ public class MemberLogic {
 
     /**
      * 회원가입 비지니스 로직
+     * TODO nickName 댓글에서 unique 값으로 사용하기 위해 nickName 유효성 검사 추가 후 회원가입 진행
      * @param reqModel
      * @return
      */
