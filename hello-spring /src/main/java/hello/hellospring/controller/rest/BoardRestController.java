@@ -1,13 +1,20 @@
 package hello.hellospring.controller.rest;
 
+import hello.hellospring.Utils.FileUploadUtil;
 import hello.hellospring.logic.HugoBoardLogic;
 import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
+import hello.hellospring.res.model.FileUploadResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Slf4j
 @CrossOrigin(value = "*")
@@ -67,7 +74,23 @@ public class BoardRestController {
     }
 
     @PostMapping("/reply/declaration")
-    public ResponseEntity<ApiResultObjectDto> declarationReply(@RequestBody HugoBoardReplyDeclarationReqModel reqModel){
+    public ResponseEntity<ApiResultObjectDto> declarationReply(@RequestBody HugoBoardReplyDeclarationReqModel reqModel) {
         return ResponseEntity.ok(hugoBoardLogic.declarationReply(reqModel));
     }
+
+    @PostMapping("/uploadFile")
+    public  ResponseEntity<FileUploadResponse> uploadFiles(@RequestParam("file")MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        long size = multipartFile.getSize();
+
+        String fileCode = FileUploadUtil.saveFile(fileName, multipartFile);
+
+        FileUploadResponse response = new FileUploadResponse();
+        response.setFileName(fileName);
+        response.setSize(size);
+        response.setDownloadUri("/downloadFile/"+fileCode);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
