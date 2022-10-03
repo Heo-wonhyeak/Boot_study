@@ -51,7 +51,7 @@ API
 
  9. 좋아요 CountUp / Down API ("/like") - method : POST - o
 
- 10. FileUpload API - ("/uploadFile") - method : POST
+ 10. FileUpload API - ("/uploadFile") - method : POST - o
   - https://www.codejava.net/frameworks/spring-boot/file-download-upload-rest-api-examples 참고바람
 
  =====================================================================================
@@ -68,7 +68,7 @@ API
 
  BoardRestController
 
-14. 댓글 신고 API ("/reply/declaration") - method : POST
+14. 댓글 신고 API ("/reply/declaration") - method : POST - o 
 
  BoardRestController
 
