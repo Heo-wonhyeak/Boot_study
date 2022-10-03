@@ -8,6 +8,7 @@ import hello.hellospring.mybatis.model.HugoBoardReplyDeclarationModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
+import hello.hellospring.res.model.HugoBoardDetailResModel;
 import hello.hellospring.service.HugoBoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,25 +99,30 @@ public class HugoBoardLogic {
         int resultCode = HttpStatus.OK.value();
         // 결과 선언해줄 resultMap 선언
         Map<String, Object> resultMap = new HashMap<>();
+        List<HugoBoardReplyModel> hugoBoardReplyModels = new ArrayList<>();
 
         if(boardIdx == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_IDX.code();
             log.error("boardIdx 값을 입력해주세요");
         }
-        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
+        //기본 게시판
+        HugoBoardDetailResModel hugoBoardModel = hugoBoardService.selectHugoBoard(boardIdx);
 
         // 게시글 존재 여부 확인
         if (hugoBoardModel == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
             log.error("게시글이 존재하지 않습니다");
         } else {
+            //resultMap.put("boardInfo", hugoBoardModel);
+
             // 해당 게시글의 댓글 목록 가져오기
-            List<HugoBoardReplyModel> hugoBoardReplyModels = hugoBoardService.listHugoBoardReplyByBoardIdx(boardIdx);
+            hugoBoardReplyModels = hugoBoardService.listHugoBoardReplyByBoardIdx(boardIdx);
 
             if(hugoBoardReplyModels == null || hugoBoardReplyModels.size() == 0) {
                 log.debug("댓글이 존재하지 않습니다");
-            } else {
-                resultMap.put("hugoBoardReplyModels", hugoBoardReplyModels);
+            }
+            else {
+                hugoBoardModel.setReplyInfo(hugoBoardReplyModels);
             }
         }
 
@@ -145,7 +152,7 @@ public class HugoBoardLogic {
         // 결과 선언해줄 resultMap 선언
         Map<String, Object> resultMap = new HashMap<>();
 
-        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+        HugoBoardDetailResModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
         if(hugoBoardModel == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
             log.error("해당 번호의 게시글은 존재하지 않습니다");
@@ -154,7 +161,8 @@ public class HugoBoardLogic {
             if(hugoBoardModel.getId().equals(reqModel.getId())) {
                 hugoBoardService.deleteHugoBoard(reqModel.getBoardIdx());
                 //~~ 님 ~~ 번 글 삭제 처리되었습니다 결과 반환
-                resultMap.put("reqModel", reqModel);
+                resultMap.put("id", reqModel.getId());
+                resultMap.put("boardId", reqModel.getBoardIdx());
             } else {
                 resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_CORRECT_USER.code();
                 log.error("작성자 본인만 삭제가 가능합니다");
@@ -177,7 +185,7 @@ public class HugoBoardLogic {
         // 결과 선언해줄 resultMap 선언
         Map<String, Object> resultMap = new HashMap<>();
 
-        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+        HugoBoardDetailResModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
         if(hugoBoardModel == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
             log.error("해당 번호의 게시글은 존재하지 않습니다");
@@ -219,7 +227,7 @@ public class HugoBoardLogic {
             log.error("게시판 번호를 입력해주세요");
         }
 
-        HugoBoardModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+        HugoBoardDetailResModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
 
         if(hugoBoardModel == null) {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
@@ -272,7 +280,7 @@ public class HugoBoardLogic {
         // 결과 선언해줄 resultMap 선언
         Map<String, Object> resultMap = new HashMap<>();
 
-        HugoBoardModel getHugoBoard = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+        HugoBoardDetailResModel getHugoBoard = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
 
         // 게시글 번호로 조회한 게시글이 없다면 게시글 존재 x 에러
         if (getHugoBoard == null) {

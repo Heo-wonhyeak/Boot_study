@@ -7,6 +7,7 @@ import hello.hellospring.mybatis.model.HugoBoardReplyDeclarationModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.HugoBoardReplyUpdateReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
+import hello.hellospring.res.model.HugoBoardDetailResModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,8 @@ public class HugoBoardService {
      * @param boardIdx
      * @return
      */
-    public HugoBoardModel selectHugoBoard(Long boardIdx) {
-        HugoBoardModel hugoBoardModel = hugoBoardDao.selectHugoBoard(boardIdx);
+    public HugoBoardDetailResModel selectHugoBoard(Long boardIdx) {
+        HugoBoardDetailResModel hugoBoardModel = hugoBoardDao.selectHugoBoard(boardIdx);
         return hugoBoardModel;
     }
 

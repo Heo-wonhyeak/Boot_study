@@ -6,6 +6,7 @@ import hello.hellospring.logic.HugoBoardLogic;
 import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.res.model.FileUploadResponse;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class BoardRestController {
     @Autowired
     HugoBoardLogic hugoBoardLogic;
 
+    @ApiOperation(value = "게시판 목록 가져오기")
     @GetMapping(value = "/list/all")
     public ResponseEntity<ApiResultObjectDto> getAllBoardList() {
         ApiResultObjectDto apiResultObjectDto = hugoBoardLogic.getAllHugoBoardLogic();

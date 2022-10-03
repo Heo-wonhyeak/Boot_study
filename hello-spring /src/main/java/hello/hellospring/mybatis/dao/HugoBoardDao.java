@@ -6,6 +6,7 @@ import hello.hellospring.mybatis.model.HugoBoardReplyDeclarationModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.HugoBoardReplyUpdateReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
+import hello.hellospring.res.model.HugoBoardDetailResModel;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public interface HugoBoardDao {
      * @return
      */
     @Select("select * from HUGO_BOARD where board_idx = #{boardIdx}")
-    HugoBoardModel selectHugoBoard(Long boardIdx);
+    HugoBoardDetailResModel selectHugoBoard(Long boardIdx);
 
     /**
      * 게시글 삭제
