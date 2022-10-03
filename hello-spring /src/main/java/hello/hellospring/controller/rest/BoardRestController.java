@@ -1,5 +1,6 @@
 package hello.hellospring.controller.rest;
 
+import hello.hellospring.Utils.FileDownloadUtil;
 import hello.hellospring.Utils.FileUploadUtil;
 import hello.hellospring.logic.HugoBoardLogic;
 import hello.hellospring.req.model.board.*;
@@ -8,7 +9,10 @@ import hello.hellospring.res.model.FileUploadResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -91,6 +95,33 @@ public class BoardRestController {
         response.setDownloadUri("/downloadFile/"+fileCode);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/downloadFile/{fileCode}")
+    public ResponseEntity<?> downloadFile(@PathVariable("fileCode") String fileCode) {
+        FileDownloadUtil downloadUtil = new FileDownloadUtil();
+
+        Resource resource = null;
+
+        try {
+            // 파일 코드로 소스 가져오기
+            resource = downloadUtil.getFileAsResource(fileCode);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        if (resource == null) {
+            return new ResponseEntity<>("파일을 찾지 못했습니다", HttpStatus.NOT_FOUND);
+        }
+
+        // 8비트 데이터 형식의 자료
+        String contentType = "application/octet-stream";
+        String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                .body(resource);
     }
 
 }
