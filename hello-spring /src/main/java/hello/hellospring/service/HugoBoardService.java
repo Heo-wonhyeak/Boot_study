@@ -172,4 +172,14 @@ public class HugoBoardService {
     public void declarationReply(HugoBoardReplyDeclarationModel hugoBoardReplyDeclarationModel) {
         hugoBoardDao.declarationReply(hugoBoardReplyDeclarationModel);
     }
+
+    /**
+     * 게시판 리스트 불러오는 API
+     * @param startNum
+     * @param listCount
+     * @return
+     */
+    public List<HugoBoardModel> getHugoBoardLists(int startNum, int listCount) {
+        return hugoBoardDao.getHugoBoardLists(startNum, listCount);
+    }
 }

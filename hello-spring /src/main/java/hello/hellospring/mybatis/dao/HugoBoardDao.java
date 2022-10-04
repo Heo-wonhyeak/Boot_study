@@ -188,4 +188,14 @@ public interface HugoBoardDao {
     @Insert("insert into hugo_declaration (reason,id,board_reply_idx,content) " +
             "values (#{reason} , #{id} , #{boardReplyIdx } , #{content , jdbcType = VARCHAR })")
     void declarationReply(HugoBoardReplyDeclarationModel hugoBoardReplyDeclarationModel);
+
+    /**
+     * 페이지 리스트 가져오기
+     *
+     * @param startNum
+     * @param listCount
+     * @return
+     */
+    @Select("select * from dev.HUGO_BOARD limit #{startNum },#{listCount }")
+    List<HugoBoardModel> getHugoBoardLists(@Param("startNum") int startNum, @Param("listCount") int listCount);
 }

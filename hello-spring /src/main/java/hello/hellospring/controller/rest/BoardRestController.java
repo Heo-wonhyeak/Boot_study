@@ -43,7 +43,7 @@ public class BoardRestController {
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
-    @GetMapping(value = "/detail/{boardIdx}/{id}")
+    @GetMapping(value = "/detail/boardIdx/{boardIdx}/id/{id}")
     public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@RequestParam Long boardIdx,
                                                               @RequestParam String id) {
         return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx, id));
@@ -126,4 +126,10 @@ public class BoardRestController {
                 .body(resource);
     }
 
+    @GetMapping("/lists/startPage/{startPage }/listCount/{listCount}")
+    public ApiResultObjectDto getPageBoardList(@RequestParam int startPage,
+                                               @RequestParam int listCount) {
+        return hugoBoardLogic.getHugoBoardLists(startPage, listCount);
+    }
+    
 }

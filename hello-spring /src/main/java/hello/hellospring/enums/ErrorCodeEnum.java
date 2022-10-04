@@ -13,6 +13,7 @@ public enum ErrorCodeEnum {
     CUSTOM_ERROR_NULL_BOARD_IDX(601, "게시판 번호를 입력해주세요"),
     CUSTOM_ERROR_NULL_BOARD_DETAIL(602, "해당 번호의 게시글은 존재하지 않습니다"),
     CUSTOM_ERROR_NULL_BOARD_REPLY(603, "해당 번호의 댓글은 존재하지 않습니다"),
+    CUSTOM_ERROR_NULL_BOARD_LIST(604, "게시글이 존재하지 않습니다"),
 
     CUSTOM_EMPTY_MEMBER_LIST(700, "회원목록이 없습니다."),
     CUSTOM_ERROR_LOGIN(701, "로그인시 에러 발생."),

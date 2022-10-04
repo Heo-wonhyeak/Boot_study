@@ -402,4 +402,31 @@ public class HugoBoardLogic {
                 .result(resultMap)
                 .build();
     }
+
+    /**
+     * 게시판 리스트 가져오기
+     * @param startPage
+     * @param listCount
+     * @return
+     */
+    public ApiResultObjectDto getHugoBoardLists(int startPage, int listCount) {
+        // 결과값 기본 코드
+        int resultCode = HttpStatus.OK.value();
+
+        // 페이지 시작 인자 번호
+        int startNum = (startPage - 1) * listCount;
+
+        List<HugoBoardModel> hugoBoardList = hugoBoardService.getHugoBoardLists(startNum, listCount);
+
+        // 리스트가 없다면 예외처리
+        if(hugoBoardList.size() == 0 || hugoBoardList.isEmpty()) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_LIST.code();
+            log.error("리스트가 없습니다");
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(hugoBoardList)
+                .build();
+    }
 }
