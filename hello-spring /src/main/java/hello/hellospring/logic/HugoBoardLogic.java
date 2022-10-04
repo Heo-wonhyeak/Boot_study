@@ -9,6 +9,7 @@ import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.res.model.HugoBoardDetailResModel;
+import hello.hellospring.res.model.HugoUpdateBoardResModel;
 import hello.hellospring.service.HugoBoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,8 +183,8 @@ public class HugoBoardLogic {
     public ApiResultObjectDto updateHugoBoard(HugoUpdateBoardReqModel reqModel) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
-        // 결과 선언해줄 resultMap 선언
-        Map<String, Object> resultMap = new HashMap<>();
+        // 결과 선언해줄 resModel 선언
+        HugoUpdateBoardResModel resModel = new HugoUpdateBoardResModel();
 
         HugoBoardDetailResModel hugoBoardModel = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
         if(hugoBoardModel == null) {
@@ -195,12 +196,16 @@ public class HugoBoardLogic {
                 log.error("제목이 입력되지 않았습니다");
             } else {
                 hugoBoardService.updateHugoBoard(reqModel);
-                resultMap.put("updateBoard",reqModel);
+                HugoBoardDetailResModel hugoBoard = hugoBoardService.selectHugoBoard(reqModel.getBoardIdx());
+
+                resModel.setBoardIdx(hugoBoard.getBoardIdx());
+                resModel.setId(hugoBoard.getId());
+                resModel.setTitle(hugoBoard.getTitle());
             }
         }
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
-                .result(resultMap)
+                .result(resModel)
                 .build();
     }
 
