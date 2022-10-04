@@ -420,13 +420,65 @@ public class HugoBoardLogic {
 
         // 리스트가 없다면 예외처리
         if(hugoBoardList.size() == 0 || hugoBoardList.isEmpty()) {
-            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_LIST.code();
-            log.error("리스트가 없습니다");
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD.code();
+            log.error("게시글이 없습니다");
         }
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(hugoBoardList)
+                .build();
+    }
+
+    /**
+     * 페이지 하단 넘버 보여주는 API
+     * @param page
+     * @param countPage
+     * @param listCount
+     * @return
+     */
+    public ApiResultObjectDto getHugoBoardPage(int page, int countPage , int listCount) {
+        // 결과값 기본 코드
+        int resultCode = HttpStatus.OK.value();
+
+        List<Integer> pageList = new ArrayList<>();
+
+        // 총 게시글 수 가져오기
+        int totalCount = hugoBoardService.getHugoBoardCount();
+        if(totalCount == 0) {
+            resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD.code();
+            log.error("게시글이 없습니다");
+        }
+
+        // 토탈페이지 숫자 구하기
+        int totalPage = totalCount / listCount;
+        // 나눠서 딱 떨아지지 않으면 한페이지 추가하기
+        if (totalCount % listCount > 0) {
+            totalPage++;
+        }
+
+        //총 페이지 수보다 큰 페이지를 원하면 마지막 페이지 보여주기
+        if (totalPage < page) {
+            page = totalPage;
+        }
+
+        // 시작페이지 번호 0
+        int startPage = ((page - 1) / countPage) * countPage;
+        // 마지막 페이지
+        int endPage = startPage + countPage -1;
+        // endPage 가 totalPage 보다 클경우 총 페이지까지만 보여주기
+        if(totalPage < endPage) {
+            endPage = totalPage;
+        }
+
+        // 보여줘야할 페이지 리스트 주입
+        for (int i = startPage; i <= endPage; i++) {
+            pageList.add(i);
+        }
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(pageList)
                 .build();
     }
 }

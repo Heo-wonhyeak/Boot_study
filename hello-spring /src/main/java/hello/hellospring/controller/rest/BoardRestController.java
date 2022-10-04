@@ -131,5 +131,11 @@ public class BoardRestController {
                                                @RequestParam int listCount) {
         return hugoBoardLogic.getHugoBoardLists(startPage, listCount);
     }
-    
+
+    @GetMapping("/page/{page}/countPage/{countPage}/listCount/{listCount}")
+    public ApiResultObjectDto getHugoBoardPage(@RequestParam int page,
+                                               @RequestParam int countPage,
+                                               @RequestParam int listCount) {
+        return hugoBoardLogic.getHugoBoardPage(page, countPage, listCount);
+    }
 }

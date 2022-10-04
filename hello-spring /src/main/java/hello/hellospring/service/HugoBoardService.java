@@ -182,4 +182,12 @@ public class HugoBoardService {
     public List<HugoBoardModel> getHugoBoardLists(int startNum, int listCount) {
         return hugoBoardDao.getHugoBoardLists(startNum, listCount);
     }
+
+    /**
+     * 페이징을 위한 게시글 총 숫자 가져오기
+     * @return
+     */
+    public Integer getHugoBoardCount() {
+        return hugoBoardDao.getHugoBoardCount();
+    }
 }

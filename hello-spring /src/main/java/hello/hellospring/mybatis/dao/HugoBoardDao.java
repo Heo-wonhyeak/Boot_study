@@ -183,6 +183,7 @@ public interface HugoBoardDao {
 
     /**
      * 댓글 신고
+     *
      * @param hugoBoardReplyDeclarationModel
      */
     @Insert("insert into hugo_declaration (reason,id,board_reply_idx,content) " +
@@ -198,4 +199,11 @@ public interface HugoBoardDao {
      */
     @Select("select * from dev.HUGO_BOARD limit #{startNum },#{listCount }")
     List<HugoBoardModel> getHugoBoardLists(@Param("startNum") int startNum, @Param("listCount") int listCount);
+
+    /**
+     * 전체 게시판 숫자 가져오기
+     * @return
+     */
+    @Select("select count(*) from dev.HUGO_BOARD")
+    Integer getHugoBoardCount();
 }
