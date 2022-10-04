@@ -74,6 +74,8 @@ API
 
   ====================================================================================
 
- 9. 게시글 게시판 리스트 API ("/lists/startPage/{startPage }/listCount/{listCount}") - method : POST
+ 15. 게시글 게시판 리스트 API ("/lists/startPage/{startPage }/listCount/{listCount}") - method : GET - o
 
  BoardRestController
+
+ 16 . 게시판 페이지 API ("/page/{page}/countPage/{countPage}/listCount/{listCount}") - method : GET - o
