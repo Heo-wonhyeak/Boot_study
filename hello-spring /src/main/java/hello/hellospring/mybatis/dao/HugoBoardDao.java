@@ -144,6 +144,7 @@ public interface HugoBoardDao {
      */
     @Insert("insert into hugo_board_reply (nick_name , content, board_idx) " +
             "values (#{nickName },#{content }, #{boardIdx})")
+    @Options(useGeneratedKeys = true, keyProperty = "boardReplyIdx", keyColumn = "boardReplyIdx")
     void writeHugoBoardReply(HugoBoardReplyModel hugoBoardReplyModel);
 
     /**

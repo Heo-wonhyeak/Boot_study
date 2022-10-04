@@ -10,8 +10,10 @@ import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.res.model.HugoBoardDetailResModel;
 import hello.hellospring.res.model.HugoUpdateBoardResModel;
+import hello.hellospring.res.model.HugoUpdateReplyResModel;
 import hello.hellospring.service.HugoBoardService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -99,7 +101,6 @@ public class HugoBoardLogic {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
         // 결과 선언해줄 resultMap 선언
-        Map<String, Object> resultMap = new HashMap<>();
         List<HugoBoardReplyModel> hugoBoardReplyModels = new ArrayList<>();
 
         if(boardIdx == null) {
@@ -114,7 +115,6 @@ public class HugoBoardLogic {
             resultCode = ErrorCodeEnum.CUSTOM_ERROR_NULL_BOARD_DETAIL.code();
             log.error("게시글이 존재하지 않습니다");
         } else {
-            //resultMap.put("boardInfo", hugoBoardModel);
 
             // 해당 게시글의 댓글 목록 가져오기
             hugoBoardReplyModels = hugoBoardService.listHugoBoardReplyByBoardIdx(boardIdx);
@@ -134,11 +134,10 @@ public class HugoBoardLogic {
             hugoBoardService.updateVisitCount(boardIdx);
             log.debug("조회수 1 증가");
         }
-        resultMap.put("hugoBoardModel", hugoBoardModel);
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
-                .result(resultMap)
+                .result(hugoBoardModel)
                 .build();
     }
 
@@ -252,6 +251,7 @@ public class HugoBoardLogic {
 
                 likeTable = hugoBoardService.selectHugoBoardLike(reqModel.getId(), reqModel.getBoardIdx());
             }
+            resultMap.put("likeTable", likeTable);
 
             // getLikeYN 이 0 이라면 좋아요 되어있지 않은상태
             if (likeTable.getLikeYN() == 0) {
@@ -299,7 +299,9 @@ public class HugoBoardLogic {
             hugoBoardReplyModel.setNickName(reqModel.getNickName());
 
             hugoBoardService.writeHugoBoardReply(hugoBoardReplyModel);
-            resultMap.put("HugoBoardReplyModel", hugoBoardReplyModel);
+
+            resultMap.put("boardIdx", hugoBoardReplyModel.getBoardReplyIdx());
+            resultMap.put("boardReplyIdx", hugoBoardReplyModel.getBoardReplyIdx());
         }
 
         return ApiResultObjectDto.builder()
@@ -316,8 +318,8 @@ public class HugoBoardLogic {
     public ApiResultObjectDto updateHugoBoardReply(HugoBoardReplyUpdateReqModel reqModel) {
         // 결과 코드 기본 ok
         int resultCode = HttpStatus.OK.value();
-        // 결과 선언해줄 resultMap 선언
-        Map<String, Object> resultMap = new HashMap<>();
+        // 결과 선언해줄 resModel 선언
+        HugoUpdateReplyResModel resModel = new HugoUpdateReplyResModel();
 
         // 댓글 번호로 댓글 가져오기
         HugoBoardReplyModel hugoBoardReplyModel = hugoBoardService.selectReply(reqModel.getBoardReplyIdx());
@@ -330,12 +332,14 @@ public class HugoBoardLogic {
             hugoBoardService.updateHugoBoardReply(reqModel);
             hugoBoardReplyModel = hugoBoardService.selectReply(reqModel.getBoardReplyIdx());
 
-            resultMap.put("updateReply", hugoBoardReplyModel);
+            resModel.setBoardIdx(hugoBoardReplyModel.getBoardIdx());
+            resModel.setNickName(hugoBoardReplyModel.getNickName());
+            resModel.setBoardReplyIdx(hugoBoardReplyModel.getBoardReplyIdx());
         }
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
-                .result(resultMap)
+                .result(resModel)
                 .build();
     }
 
@@ -360,13 +364,13 @@ public class HugoBoardLogic {
             if (reqModel.getNickName().equals(hugoBoardReply.getNickName())) {
                 hugoBoardService.deleteReply(reqModel.getBoardReplyIdx());
                 // ~~ 님 ~~ 번 댓글 삭제되었습니다
-                resultMap.put("reqModel", reqModel);
+                resultMap.put("nickName", reqModel.getNickName());
+                resultMap.put("replyIdx", reqModel.getBoardReplyIdx());
             } else {
                 resultCode = ErrorCodeEnum.CUSTOM_ERROR_NOT_CORRECT_USER.code();
                 log.error("작성자 본인만 삭제가 가능합니다");
             }
         }
-
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(resultMap)
@@ -399,7 +403,8 @@ public class HugoBoardLogic {
             declarationModel.setContent(reqModel.getContent());
 
             hugoBoardService.declarationReply(declarationModel);
-            resultMap.put("declarationModel", declarationModel);
+            resultMap.put("replyIdx", declarationModel.getBoardReplyIdx());
+            resultMap.put("declarationIdx", declarationModel.getDeclarationIdx());
         }
 
         return ApiResultObjectDto.builder()
