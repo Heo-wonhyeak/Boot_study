@@ -134,8 +134,6 @@ public class BoardRestController {
      */
     @PostMapping("/lists")
     public ApiResultObjectDto getPageBoardList(@RequestBody HugoBoardListReqModel reqModel) {
-        log.info("getPageBoardListController - reqModel.getStartPage() : {}",reqModel.getStartPage());
-        log.info("getPageBoardListController - reqModel.getListCount() : {}",reqModel.getListCount());
         return hugoBoardLogic.getHugoBoardLists(reqModel.getStartPage(), reqModel.getListCount());
     }
 
