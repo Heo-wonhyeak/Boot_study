@@ -126,14 +126,22 @@ public class BoardRestController {
                 .body(resource);
     }
 
-    @GetMapping("/lists")
+    /*
+        TODO
+        질문 사항 - 리스트 가져오는것은 GetMapping 해야 하는것 아닌가요?
+        어제 얘기한대로 reqModel 사용해서 파라미터를 리퀘스트 바디로 가져오면 GetMapping 에선 오류가 발생해서
+        POST 로 바꿨습니다.
+     */
+    @PostMapping("/lists")
     public ApiResultObjectDto getPageBoardList(@RequestBody HugoBoardListReqModel reqModel) {
+        log.info("getPageBoardListController - reqModel.getStartPage() : {}",reqModel.getStartPage());
+        log.info("getPageBoardListController - reqModel.getListCount() : {}",reqModel.getListCount());
         return hugoBoardLogic.getHugoBoardLists(reqModel.getStartPage(), reqModel.getListCount());
     }
 
-    @GetMapping("/pages")
+    @PostMapping("/pages")
     public ApiResultObjectDto getHugoBoardPage(@RequestBody HugoBoardPageReqModel reqModel) {
         return hugoBoardLogic.getHugoBoardPage(reqModel.getPage(), reqModel.getCountPage(), reqModel.getListCount());
     }
-    
+
 }
