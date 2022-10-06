@@ -79,7 +79,7 @@ public class MemberRestController {
      * @return
      */
     @GetMapping(value = "/info/{id}")
-    public ResponseEntity<ApiResultObjectDto> getMemberInfo(@RequestParam String id) {
+    public ResponseEntity<ApiResultObjectDto> getMemberInfo(@PathVariable String id) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.getHugoMemberInfo(id);
         return ResponseEntity.ok(apiResultObjectDto);
     }
@@ -120,7 +120,7 @@ public class MemberRestController {
 
     @Deprecated
     @GetMapping(value = "/logout/{id}")
-    public ResponseEntity<ApiResultObjectDto> logoutMember(@RequestParam String id ,HttpServletRequest request) {
+    public ResponseEntity<ApiResultObjectDto> logoutMember(@PathVariable String id ,HttpServletRequest request) {
         ApiResultObjectDto apiResultObjectDto = memberLogic.logoutByIdLogic(id, request);
         return ResponseEntity.ok(apiResultObjectDto);
     }

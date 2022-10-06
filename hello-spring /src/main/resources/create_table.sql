@@ -152,3 +152,7 @@ CREATE TABLE `dev`.`hugo_declaration` (
   `board_reply_idx` BIGINT NOT NULL,
   `content` VARCHAR(4000) NULL,
   PRIMARY KEY (`declaration_idx`));
+
+  ALTER TABLE `dev`.`HUGO_USER_INFO`
+  ADD COLUMN `idx` BIGINT NOT NULL AUTO_INCREMENT AFTER `join_date`,
+  ADD UNIQUE INDEX `idx_UNIQUE` (`idx` ASC) VISIBLE;

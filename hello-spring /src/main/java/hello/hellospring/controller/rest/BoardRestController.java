@@ -44,8 +44,8 @@ public class BoardRestController {
     }
 
     @GetMapping(value = "/detail/boardIdx/{boardIdx}/id/{id}")
-    public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@RequestParam Long boardIdx,
-                                                              @RequestParam String id) {
+    public ResponseEntity<ApiResultObjectDto> selectHugoBoard(@PathVariable("boardIdx") Long boardIdx,
+                                                              @PathVariable("id") String id) {
         return ResponseEntity.ok(hugoBoardLogic.selectHugoBoard(boardIdx, id));
     }
 
@@ -126,16 +126,14 @@ public class BoardRestController {
                 .body(resource);
     }
 
-    @GetMapping("/lists/startPage/{startPage }/listCount/{listCount}")
-    public ApiResultObjectDto getPageBoardList(@RequestParam int startPage,
-                                               @RequestParam int listCount) {
-        return hugoBoardLogic.getHugoBoardLists(startPage, listCount);
+    @GetMapping("/lists")
+    public ApiResultObjectDto getPageBoardList(@RequestBody HugoBoardListReqModel reqModel) {
+        return hugoBoardLogic.getHugoBoardLists(reqModel.getStartPage(), reqModel.getListCount());
     }
 
-    @GetMapping("/page/{page}/countPage/{countPage}/listCount/{listCount}")
-    public ApiResultObjectDto getHugoBoardPage(@RequestParam int page,
-                                               @RequestParam int countPage,
-                                               @RequestParam int listCount) {
-        return hugoBoardLogic.getHugoBoardPage(page, countPage, listCount);
+    @GetMapping("/pages")
+    public ApiResultObjectDto getHugoBoardPage(@RequestBody HugoBoardPageReqModel reqModel) {
+        return hugoBoardLogic.getHugoBoardPage(reqModel.getPage(), reqModel.getCountPage(), reqModel.getListCount());
     }
+    
 }

@@ -4,6 +4,7 @@ import hello.hellospring.mybatis.model.HugoUserInfoModel;
 import hello.hellospring.req.model.HugoLoginReqModel;
 import hello.hellospring.req.model.HugoUserModifyReqModel;
 import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,7 +36,7 @@ public interface HugoUserInfoDao {
     HugoUserInfoModel findUserById(@Param("id") String id);
 
     @Select("select * from hugo_user_info where id = #{id}")
-    HugoUserInfoModel findHugoMemberInfoById(@RequestParam("id") String id);
+    HugoUserInfoModel findHugoMemberInfoById(@PathVariable("id") String id);
 
     @Update("UPDATE HUGO_USER_INFO\n" +
             "SET\n" +
