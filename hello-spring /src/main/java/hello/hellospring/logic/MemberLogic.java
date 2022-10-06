@@ -125,6 +125,8 @@ public class MemberLogic {
         //리턴해줄 object map 선언
         Map<String, Object>resultMap = new HashMap<>();
 
+        log.info(id);
+
         //회원 아이디가 비워져 있으면 551번 에러처리
         if ("".equals(id) ) {
             resultCode = 551;

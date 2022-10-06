@@ -4,6 +4,7 @@ import hello.hellospring.enums.ErrorCodeEnum;
 import hello.hellospring.framework.exception.BaseException;
 import hello.hellospring.logic.MemberLogic;
 import hello.hellospring.req.model.*;
+import hello.hellospring.req.model.board.DuplicateIdReqModel;
 import hello.hellospring.res.model.ApiResultObjectDto;
 import hello.hellospring.res.model.TestResModel;
 import lombok.extern.slf4j.Slf4j;
@@ -55,12 +56,21 @@ public class MemberRestController {
 
     /**
      * 회원가입 아이디 중복체크
-     * @param id
+     *
+     * TODO
+     * 질문 사항
+     * - @RequestParam("id") String id로 파라미터를 받고
+     * ajax 에서 data : JSON.stringify() 로 값을 받았을 경우엔
+     * 에러가 발생
+     * reqModel 을 만들고 @RequestBody 를 사용하여 실행시 에러 해결
+     *  - 한개의 파라미터를 post 로 받을 경우엔 reqModel 없이 간소화 가능한지
+     *
+     * @param reqModel
      * @return
      */
     @PostMapping(value ="/duplicate")
-    public ResponseEntity<ApiResultObjectDto> duplicateId(@RequestParam String id) {
-        return ResponseEntity.ok(memberLogic.duplicateMemberId(id));
+    public ResponseEntity<ApiResultObjectDto> duplicateId(@RequestBody DuplicateIdReqModel reqModel) {
+        return ResponseEntity.ok(memberLogic.duplicateMemberId(reqModel.getId()));
     }
 
     /**
