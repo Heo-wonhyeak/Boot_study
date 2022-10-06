@@ -131,6 +131,10 @@ public class BoardRestController {
         질문 사항 - 리스트 가져오는것은 GetMapping 해야 하는것 아닌가요?
         어제 얘기한대로 reqModel 사용해서 파라미터를 리퀘스트 바디로 가져오면 GetMapping 에선 오류가 발생해서
         POST 로 바꿨습니다.
+
+        REPLY
+        @GetMapping 으로 리스트를 받아오는 형식은 파라미터를 받는 않는 순수 엔티티의 리스트를 받아올때 사용
+        실질적으로 파라미터를 여러개를 사용해서 받아오는 API는 @PostMapping 을 사용
      */
     @PostMapping("/lists")
     public ApiResultObjectDto getPageBoardList(@RequestBody HugoBoardListReqModel reqModel) {

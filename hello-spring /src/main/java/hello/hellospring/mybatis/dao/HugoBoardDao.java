@@ -8,6 +8,7 @@ import hello.hellospring.req.model.board.HugoBoardReplyUpdateReqModel;
 import hello.hellospring.req.model.board.HugoUpdateBoardReqModel;
 import hello.hellospring.res.model.HugoBoardDetailResModel;
 import org.apache.ibatis.annotations.*;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
