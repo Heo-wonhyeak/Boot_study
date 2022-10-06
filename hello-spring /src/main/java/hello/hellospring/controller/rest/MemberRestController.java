@@ -54,6 +54,16 @@ public class MemberRestController {
     }
 
     /**
+     * 회원가입 아이디 중복체크
+     * @param id
+     * @return
+     */
+    @PostMapping(value ="/duplicate")
+    public ResponseEntity<ApiResultObjectDto> duplicateId(@RequestParam String id) {
+        return ResponseEntity.ok(memberLogic.duplicateMemberId(id));
+    }
+
+    /**
      * 회원정보 API
      * @param id
      * @return

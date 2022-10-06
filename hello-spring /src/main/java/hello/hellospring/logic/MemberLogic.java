@@ -114,6 +114,43 @@ public class MemberLogic {
                 .build();
     }
 
+    /**
+     * 아이디 중복체크 API
+     * @param id
+     * @return
+     */
+    public ApiResultObjectDto duplicateMemberId(String id) {
+        //결과값 선언 ( http ok code )
+        int resultCode = HttpStatus.OK.value();
+        //리턴해줄 object map 선언
+        Map<String, Object>resultMap = new HashMap<>();
+
+        //회원 아이디가 비워져 있으면 551번 에러처리
+        if ("".equals(id) ) {
+            resultCode = 551;
+        } else {
+
+            //존재하는 아이디가 있는지 개수 확인
+            int userCount = memberService.findCountHugoUserById(id);
+
+            //아이디가 존재하면 에러 코드 값 주입
+            if (userCount > 0) {
+                resultCode = ErrorCodeEnum.CUSTOM_ERROR_ID_OVERLAP.code();
+                log.error("이미 존재하는 아이디 입니다. ID :: {}", id);
+                resultMap.put("isChecked", false);
+            }
+            //아이디가 존재하지 않으면 success
+            if (userCount == 0) {
+                resultMap.put("isChecked", true);
+            }
+        }
+
+        return ApiResultObjectDto.builder()
+                .result(resultMap)
+                .resultCode(resultCode)
+                .build();
+    }
+
     public ApiResultObjectDto loginByIdLogic(HugoLoginReqModel reqModel , HttpServletRequest request) {
         //결과값 선언 ( http ok code )
         int resultCode = HttpStatus.OK.value();
