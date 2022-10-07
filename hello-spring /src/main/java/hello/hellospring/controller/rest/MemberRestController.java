@@ -65,6 +65,11 @@ public class MemberRestController {
      * reqModel 을 만들고 @RequestBody 를 사용하여 실행시 에러 해결
      *  - 한개의 파라미터를 post 로 받을 경우엔 reqModel 없이 간소화 가능한지
      *
+     *  REPLY
+     * -@RequestParam 을 사용하려면 ajax 에서 data를 JSON.stringify() 를 빼고 순수 data 형식으로 보내면 됨
+     *  ex) data : { property1 : value1, property2 : value2, ...... }
+     *  controller > @RequestParam(value = "property1") Object property1, ...)
+     *
      * @param reqModel
      * @return
      */
