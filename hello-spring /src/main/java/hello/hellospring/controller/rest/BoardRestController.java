@@ -31,9 +31,10 @@ public class BoardRestController {
     HugoBoardLogic hugoBoardLogic;
 
     @ApiOperation(value = "게시판 목록 가져오기")
-    @GetMapping(value = "/list/all")
-    public ResponseEntity<ApiResultObjectDto> getAllBoardList() {
-        ApiResultObjectDto apiResultObjectDto = hugoBoardLogic.getAllHugoBoardLogic();
+    @PostMapping(value = "/list/all")
+    public ResponseEntity<ApiResultObjectDto> getAllBoardList(@RequestParam(value = "startPage") int startPage,
+                                                              @RequestParam(value = "listNumber") int listNumber) {
+        ApiResultObjectDto apiResultObjectDto = hugoBoardLogic.getAllHugoBoardLogic(startPage, listNumber);
         return ResponseEntity.ok(apiResultObjectDto);
     }
 
