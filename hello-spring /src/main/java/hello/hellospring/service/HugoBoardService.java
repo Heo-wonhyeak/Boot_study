@@ -25,8 +25,8 @@ public class HugoBoardService {
      * test 용
      * @return
      */
-    public List<HugoBoardModel> findHugoBoardList() {
-        return hugoBoardDao.getHugoBoardList();
+    public List<HugoBoardModel> findHugoBoardList(int start, int end) {
+        return hugoBoardDao.getHugoBoardList(start, end);
     }
 
     /**

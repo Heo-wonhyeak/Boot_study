@@ -20,8 +20,8 @@ public interface HugoBoardDao {
      *
      * @return
      */
-    @Select("SELECT * FROM HUGO_BOARD")
-    List<HugoBoardModel> getHugoBoardList();
+    @Select("SELECT * FROM HUGO_BOARD LIMIT #{start}, #{end}")
+    List<HugoBoardModel> getHugoBoardList(@Param("start") int start, @Param("end") int end);
 
     /**
      * 게시판 글쓰기

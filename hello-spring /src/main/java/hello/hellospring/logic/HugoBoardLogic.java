@@ -7,10 +7,7 @@ import hello.hellospring.mybatis.model.HugoBoardModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyDeclarationModel;
 import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.*;
-import hello.hellospring.res.model.ApiResultObjectDto;
-import hello.hellospring.res.model.HugoBoardDetailResModel;
-import hello.hellospring.res.model.HugoUpdateBoardResModel;
-import hello.hellospring.res.model.HugoUpdateReplyResModel;
+import hello.hellospring.res.model.*;
 import hello.hellospring.service.HugoBoardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.MutablePropertyValues;
@@ -35,17 +32,28 @@ public class HugoBoardLogic {
      * Board 전체를 가져오는 로직
      * @return
      */
-    public ApiResultObjectDto getAllHugoBoardLogic() {
+    public ApiResultObjectDto getAllHugoBoardLogic(final int startPage, final int listNumber) {
         int resultCode = 200;
         // Board List
-        List<HugoBoardModel> hugoBoardList = hugoBoardService.findHugoBoardList();
+        int start = 0;
+        if (startPage > 0) {
+            start = startPage * listNumber;
+        }
+        //총개수
+        int boardTotalCount = hugoBoardService.getHugoBoardCount();
+        //리스트
+        List<HugoBoardModel> hugoBoardList = hugoBoardService.findHugoBoardList(start, listNumber);
         // 리스트가 없다면 예외처리
         if(hugoBoardList.size() == 0 || hugoBoardList.isEmpty()) {
             resultCode = 550;
         }
 
+        BoardPagingResModel resModel = new BoardPagingResModel();
+        resModel.setTotalCount(boardTotalCount);
+        resModel.setBoardInfo(hugoBoardList);
+
         return ApiResultObjectDto.builder().
-                resultCode(resultCode).result(hugoBoardList).build();
+                resultCode(resultCode).result(resModel).build();
     }
 
     /**
