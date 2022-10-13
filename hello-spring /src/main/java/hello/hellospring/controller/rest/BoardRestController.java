@@ -32,8 +32,8 @@ public class BoardRestController {
 
     @ApiOperation(value = "게시판 목록 가져오기")
     @PostMapping(value = "/list/all")
-    public ResponseEntity<ApiResultObjectDto> getAllBoardList(@RequestParam(value = "startPage") int startPage,
-                                                              @RequestParam(value = "listNumber") int listNumber) {
+    public ResponseEntity<ApiResultObjectDto> getAllBoardList(@RequestParam(value = "startPage") Integer startPage,
+                                                              @RequestParam(value = "listNumber") Integer listNumber) {
         ApiResultObjectDto apiResultObjectDto = hugoBoardLogic.getAllHugoBoardLogic(startPage, listNumber);
         return ResponseEntity.ok(apiResultObjectDto);
     }
@@ -135,6 +135,11 @@ public class BoardRestController {
     @PostMapping("/pages")
     public ApiResultObjectDto getHugoBoardPage(@RequestBody HugoBoardPageReqModel reqModel) {
         return hugoBoardLogic.getHugoBoardPage(reqModel.getPage(), reqModel.getCountPage(), reqModel.getListCount());
+    }
+
+    @GetMapping("/likeTable/id/{id}/boardIdx/{boardIdx}")
+    public ApiResultObjectDto getHugoBoardLike(String id,Long boardIdx) {
+        return hugoBoardLogic.getHugoBoardLike(boardIdx, id);
     }
 
 }

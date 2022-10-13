@@ -190,4 +190,13 @@ public class HugoBoardService {
     public Integer getHugoBoardCount() {
         return hugoBoardDao.getHugoBoardCount();
     }
+
+    /**
+     * 게시글 좋아요 숫자 가져오기
+     * @param boardIdx
+     * @return
+     */
+    public Long getLikeCount(Long boardIdx) {
+        return hugoBoardDao.getLikeCount(boardIdx);
+    }
 }
