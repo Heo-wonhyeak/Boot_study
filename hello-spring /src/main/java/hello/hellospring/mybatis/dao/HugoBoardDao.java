@@ -204,8 +204,12 @@ public interface HugoBoardDao {
 
     /**
      * 전체 게시판 숫자 가져오기
+     *
      * @return
      */
     @Select("select count(*) from dev.HUGO_BOARD")
     Integer getHugoBoardCount();
+
+    @Select("select like_count from dev.hugo_board where board_idx = #{boardIdx}")
+    Long getLikeCount(Long boardIdx);
 }

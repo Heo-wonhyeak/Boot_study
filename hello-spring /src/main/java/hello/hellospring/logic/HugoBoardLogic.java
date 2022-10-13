@@ -9,6 +9,7 @@ import hello.hellospring.mybatis.model.HugoBoardReplyModel;
 import hello.hellospring.req.model.board.*;
 import hello.hellospring.res.model.*;
 import hello.hellospring.service.HugoBoardService;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,7 +260,6 @@ public class HugoBoardLogic {
 
                 likeTable = hugoBoardService.selectHugoBoardLike(reqModel.getId(), reqModel.getBoardIdx());
             }
-            resultMap.put("likeTable", likeTable);
 
             // getLikeYN 이 0 이라면 좋아요 되어있지 않은상태
             if (likeTable.getLikeYN() == 0) {
@@ -267,12 +267,20 @@ public class HugoBoardLogic {
                 hugoBoardService.updateLikeCountBoard(likeTable.getLikeIdx());
                 // 좋아요 숫자 증가
                 hugoBoardService.updateLikeCount(likeTable.getBoardIdx());
+
+                // 변경 이후 likeTable 가져오기
+                likeTable = hugoBoardService.selectHugoBoardLike(reqModel.getId(), reqModel.getBoardIdx());
+                resultMap.put("likeTable", likeTable);
                 resultMap.put("isLiked", true);
             } else {
                 // LikeYN 0으로 변경
                 hugoBoardService.updateDislikeCountBoard(likeTable.getLikeIdx());
                 // 좋아요 숫자 감소
                 hugoBoardService.updateDisLikeCount(likeTable.getBoardIdx());
+
+                // 변경 이후 likeTable 가져오기
+                likeTable = hugoBoardService.selectHugoBoardLike(reqModel.getId(), reqModel.getBoardIdx());
+                resultMap.put("likeTable", likeTable);
                 resultMap.put("isLiked", false);
             }
         }
@@ -497,6 +505,48 @@ public class HugoBoardLogic {
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
                 .result(pageList)
+                .build();
+    }
+
+
+    /**
+     * 좋아요 테이블 확인하기
+     * @param boardIdx
+     * @param id
+     * @return
+     */
+    public ApiResultObjectDto getHugoBoardLike(Long boardIdx, String id) {
+        // 결과값 기본 코드
+        int resultCode = HttpStatus.OK.value();
+
+        // 결과 반환할 resultMap
+        Map<String, Object> resultMap = new HashMap<>();
+
+        Long likeCount = hugoBoardService.getLikeCount(boardIdx);
+        resultMap.put("likeCount", likeCount);
+
+        // 좋아요 테이블 확인
+        HugoBoardLikeModel likeTable = hugoBoardService.selectHugoBoardLike(id, boardIdx);
+
+        // 없다면 생성
+        if(likeTable == null) {
+            HugoBoardLikeModel hugoBoardLikeModel = new HugoBoardLikeModel();
+            hugoBoardLikeModel.setBoardIdx(boardIdx);
+            hugoBoardLikeModel.setId(id);
+
+            //좋아요 테이블 만들기
+            hugoBoardService.insertLikeCountBoard(hugoBoardLikeModel);
+
+            likeTable = hugoBoardService.selectHugoBoardLike(id, boardIdx);
+        }
+        resultMap.put("likeTable", likeTable);
+
+
+
+
+        return ApiResultObjectDto.builder()
+                .resultCode(resultCode)
+                .result(resultMap)
                 .build();
     }
 }

@@ -137,4 +137,9 @@ public class BoardRestController {
         return hugoBoardLogic.getHugoBoardPage(reqModel.getPage(), reqModel.getCountPage(), reqModel.getListCount());
     }
 
+    @GetMapping("/likeTable/id/{id}/boardIdx/{boardIdx}")
+    public ApiResultObjectDto getHugoBoardLike(String id,Long boardIdx) {
+        return hugoBoardLogic.getHugoBoardLike(boardIdx, id);
+    }
+
 }
