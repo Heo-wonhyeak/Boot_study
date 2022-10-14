@@ -8,6 +8,8 @@ import java.util.Date;
 @Data
 public class HugoBoardModel {
 
+    private Long rowNum;
+
     private Long boardIdx;
 
     private String title;

@@ -20,7 +20,11 @@ public interface HugoBoardDao {
      *
      * @return
      */
-    @Select("SELECT * FROM HUGO_BOARD LIMIT #{start}, #{end}")
+    @Select("select * \n" +
+            "\tfrom (select @rownum:=@rownum+1 AS ROWNUM, A.*\n" +
+            "\t\tfrom dev.HUGO_BOARD A, (SELECT @rownum := 0) TMP\n" +
+            "\t\torder by board_idx desc) SUB\n" +
+            "order by SUB.ROWNUM desc limit #{start} , #{end}")
     List<HugoBoardModel> getHugoBoardList(@Param("start") int start, @Param("end") int end);
 
     /**
