@@ -95,6 +95,7 @@ public class BoardRestController {
         FileUploadResponse response = new FileUploadResponse();
         response.setFileName(fileName);
         response.setSize(size);
+        /* 질문 - 이걸 받아올 수 있는 방법이 있는지? */
         response.setDownloadUri("/downloadFile/"+fileCode);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
