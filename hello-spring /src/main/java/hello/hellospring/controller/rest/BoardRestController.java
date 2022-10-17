@@ -86,7 +86,7 @@ public class BoardRestController {
     }
 
     @PostMapping("/uploadFile")
-    public  ResponseEntity<FileUploadResponse> uploadFiles(@RequestParam("file")MultipartFile multipartFile) throws IOException {
+    public  ResponseEntity<FileUploadResponse> uploadFiles(@RequestParam("file")MultipartFile multipartFile, Long boardIdx) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         long size = multipartFile.getSize();
 
@@ -95,8 +95,9 @@ public class BoardRestController {
         FileUploadResponse response = new FileUploadResponse();
         response.setFileName(fileName);
         response.setSize(size);
-        /* 질문 - 이걸 받아올 수 있는 방법이 있는지? */
         response.setDownloadUri("/downloadFile/"+fileCode);
+
+        hugoBoardLogic.setFileCode(fileCode, boardIdx);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

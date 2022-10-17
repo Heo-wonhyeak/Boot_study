@@ -199,4 +199,13 @@ public class HugoBoardService {
     public Long getLikeCount(Long boardIdx) {
         return hugoBoardDao.getLikeCount(boardIdx);
     }
+
+    /**
+     * 파일 코드 세팅하기
+     * @param fileCode
+     * @param boardIdx
+     */
+    public void setFileCode(String fileCode, Long boardIdx) {
+        hugoBoardDao.setFileCode(fileCode,boardIdx);
+    }
 }
