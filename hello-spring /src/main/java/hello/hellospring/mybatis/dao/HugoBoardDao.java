@@ -217,6 +217,6 @@ public interface HugoBoardDao {
     @Select("select like_count from dev.hugo_board where board_idx = #{boardIdx}")
     Long getLikeCount(Long boardIdx);
 
-    @Update("update dev.hugo_board set filecode = #{filecode } where board_idx= #{boardIdx}")
-    void setFileCode(String filecode, Long boardIdx);
+    @Update("update dev.HUGO_BOARD set filecode = #{filecode} where board_idx = #{boardIdx}")
+    void setFileCode(@Param("filecode") String filecode, @Param("boardIdx") Long boardIdx);
 }

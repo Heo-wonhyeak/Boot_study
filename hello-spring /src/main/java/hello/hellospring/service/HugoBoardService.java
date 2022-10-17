@@ -206,6 +206,6 @@ public class HugoBoardService {
      * @param boardIdx
      */
     public void setFileCode(String fileCode, Long boardIdx) {
-        hugoBoardDao.setFileCode(fileCode,boardIdx);
+        hugoBoardDao.setFileCode(fileCode, boardIdx);
     }
 }
