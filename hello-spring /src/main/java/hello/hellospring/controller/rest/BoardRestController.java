@@ -86,7 +86,7 @@ public class BoardRestController {
     }
 
     @PostMapping("/uploadFile")
-    public  ResponseEntity<FileUploadResponse> uploadFiles(@RequestParam("file")MultipartFile multipartFile) throws IOException {
+    public  ResponseEntity<FileUploadResponse> uploadFiles(@RequestParam("file")MultipartFile multipartFile, Long boardIdx) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         long size = multipartFile.getSize();
 
@@ -96,6 +96,8 @@ public class BoardRestController {
         response.setFileName(fileName);
         response.setSize(size);
         response.setDownloadUri("/downloadFile/"+fileCode);
+
+        hugoBoardLogic.setFileCode(fileCode, boardIdx);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

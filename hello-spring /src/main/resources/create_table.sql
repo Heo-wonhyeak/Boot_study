@@ -156,3 +156,6 @@ CREATE TABLE `dev`.`hugo_declaration` (
   ALTER TABLE `dev`.`HUGO_USER_INFO`
   ADD COLUMN `idx` BIGINT NOT NULL AUTO_INCREMENT AFTER `join_date`,
   ADD UNIQUE INDEX `idx_UNIQUE` (`idx` ASC) VISIBLE;
+
+  ALTER TABLE `dev`.`HUGO_BOARD`
+  ADD COLUMN `filecode` VARCHAR(45) NULL AFTER `boarder`;

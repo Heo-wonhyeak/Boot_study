@@ -32,4 +32,7 @@ public class HugoBoardModel {
     private String writeHeader;
 
     private String boarder;
+
+    //파일 코드 받기
+    private String fileCode;
 }
