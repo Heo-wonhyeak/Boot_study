@@ -159,3 +159,6 @@ CREATE TABLE `dev`.`hugo_declaration` (
 
   ALTER TABLE `dev`.`HUGO_BOARD`
   ADD COLUMN `filecode` VARCHAR(45) NULL AFTER `boarder`;
+
+  ALTER TABLE `dev`.`HUGO_BOARD`
+  CHANGE COLUMN `filecode` `file_code` VARCHAR(45) NULL DEFAULT NULL ;

@@ -214,11 +214,11 @@ public interface HugoBoardDao {
     @Select("select count(*) from dev.HUGO_BOARD")
     Integer getHugoBoardCount();
 
-    @Select("select like_count from dev.hugo_board where board_idx = #{boardIdx}")
+    @Select("select like_count from dev.hugo_board where board_idx = #{boardIdx }")
     Long getLikeCount(Long boardIdx);
 
 
-    @Update("update dev.HUGO_BOARD set filecode = #{filecode} where board_idx = #{boardIdx}")
-    void setFileCode(@Param("filecode") String filecode, @Param("boardIdx") Long boardIdx);
+    @Update("update dev.HUGO_BOARD set file_code = #{fileCode } where board_idx = #{boardIdx }")
+    void setFileCode(@Param("fileCode") String fileCode, @Param("boardIdx") Long boardIdx);
 
 }
