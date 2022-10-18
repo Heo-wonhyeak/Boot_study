@@ -555,7 +555,7 @@ public class HugoBoardLogic {
         Map<String, Object> resultMap = new HashMap<>();
 
         // breakPoint 찍어서 확인결과 filecode, boardIdx 잘 받아옴.. 그런데 set 이 안됨.. (해당 DB 가 저장되기 이전에 로직이 타서 그런것 아닌지 의심)
-        hugoBoardService.setFileCode(filecode,boardIdx);
+        hugoBoardService.setFileCode(filecode, boardIdx);
 
         return ApiResultObjectDto.builder()
                 .resultCode(resultCode)
