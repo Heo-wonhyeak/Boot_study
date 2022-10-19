@@ -34,4 +34,6 @@ public class HugoBoardDetailResModel {
     private String boarder;
 
     private List<HugoBoardReplyModel> replyInfo;
+
+    private String fileCode;
 }
