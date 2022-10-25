@@ -86,7 +86,7 @@ public class BoardRestController {
     }
 
     @PostMapping("/uploadFile")
-    public  ResponseEntity<FileUploadResponse> uploadFiles(@RequestParam("file")MultipartFile multipartFile, Long boardIdx) throws IOException {
+    public ResponseEntity<FileUploadResponse> uploadFiles(@RequestParam("file")MultipartFile multipartFile, Long boardIdx) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         long size = multipartFile.getSize();
 
