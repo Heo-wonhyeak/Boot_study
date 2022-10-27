@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -53,7 +54,7 @@ public class BasicItemController {
     }
 
 //    @PostMapping("/add")
-    public String addItemV2(@ModelAttribute("item") Item item, Model model) {
+    public String addItemV2(@ModelAttribute("item") Item item) {
 
         itemRepository.save(item);
 //        model.addAttribute("item", item); // ModelAttribute 로 자동 추가
@@ -62,7 +63,7 @@ public class BasicItemController {
     }
 
 //    @PostMapping("/add")
-    public String addItemV3(@ModelAttribute Item item, Model model) {
+    public String addItemV3(@ModelAttribute Item item) {
         // ModelAttribute 이후 이름 생략시 클래스의 첫글자만 소문자로 저장
 
         itemRepository.save(item);
@@ -71,7 +72,7 @@ public class BasicItemController {
     }
 
 //    @PostMapping("/add")
-    public String addItemV4(Item item, Model model) {
+    public String addItemV4(Item item) {
         // ModelAttribute 이후 이름 생략시 클래스의 첫글자만 소문자로 저장
 
         itemRepository.save(item);
@@ -79,8 +80,8 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping("/add")
-    public String addItemV5(Item item, Model model) {
+//    @PostMapping("/add")
+    public String addItemV5(Item item) {
         // ModelAttribute 이후 이름 생략시 클래스의 첫글자만 소문자로 저장
 
         itemRepository.save(item);
@@ -88,6 +89,19 @@ public class BasicItemController {
         Long itemId = item.getId();
 //        model.addAttribute("item", item); // ModelAttribute 로 자동 추가
         return "redirect:/basic/items/"+itemId;
+    }
+
+    @PostMapping("/add")
+    public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+        // ModelAttribute 이후 이름 생략시 클래스의 첫글자만 소문자로 저장
+
+        Item saveItem = itemRepository.save(item);
+
+        redirectAttributes.addAttribute("itemId",saveItem.getId());
+        // 하기에 변수로 안들어간 것은 쿼리 파라미터 형태로 넘어간다
+        redirectAttributes.addAttribute("status", true);
+//        model.addAttribute("item", item); // ModelAttribute 로 자동 추가
+        return "redirect:/basic/items/{itemId}";
     }
 
     @GetMapping("/{itemId}")
