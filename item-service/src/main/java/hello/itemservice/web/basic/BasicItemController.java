@@ -70,13 +70,24 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String addItemV4(Item item, Model model) {
         // ModelAttribute 이후 이름 생략시 클래스의 첫글자만 소문자로 저장
 
         itemRepository.save(item);
 //        model.addAttribute("item", item); // ModelAttribute 로 자동 추가
         return "basic/item";
+    }
+
+    @PostMapping("/add")
+    public String addItemV5(Item item, Model model) {
+        // ModelAttribute 이후 이름 생략시 클래스의 첫글자만 소문자로 저장
+
+        itemRepository.save(item);
+
+        Long itemId = item.getId();
+//        model.addAttribute("item", item); // ModelAttribute 로 자동 추가
+        return "redirect:/basic/items/"+itemId;
     }
 
     @GetMapping("/{itemId}")
