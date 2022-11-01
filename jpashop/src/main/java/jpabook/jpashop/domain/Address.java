@@ -13,7 +13,7 @@ public class Address {
     private String zipCode;
 
     /**
-     * JPA spec 상 생성 
+     * JPA spec 상 생성
      */
     protected Address() {}
 

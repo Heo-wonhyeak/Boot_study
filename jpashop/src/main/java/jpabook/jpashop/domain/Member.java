@@ -20,6 +20,10 @@ public class Member {
     @Embedded
     private Address address;
 
+    /**
+     * * 컬랙션을 가급적 수정하지 말아라!
+     * * 필드에서 바로 초기화 하는것이 좋음!!
+     */
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 }
