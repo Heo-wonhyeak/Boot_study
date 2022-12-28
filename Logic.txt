@@ -1,0 +1,181 @@
+1. Login logic
+    Paramater @RequestBody
+    {
+        id : ""
+        ,pwd : ""
+    }
+
+    Return
+    {
+        LoginSucess : true or false
+        sucessCode : 200
+        Id FailCode : 510 (아이디 에러)
+        pwd errorCode : 511 (비밀번호 에러)
+        session 영역에 저장 
+        nickName 을 hashMap 에 저장 
+    }
+
+    1-1. Logout logic
+        Parameter @RequestParam
+        {
+            id : ""
+        }
+
+        Return
+        {
+            LoginSucess : true or false
+            sucessCode : 200
+            isLogon FailCode : 599 (로그인되어있지 않음)
+        }
+
+2. signUp logic
+    Paramater @RequestBody
+    {
+        id : ""
+        ,pwd : ""
+        ,name : ""
+        ,nick_name : ""
+        ,email : ""
+        ,birth_day : ""
+        ,gender : ""
+        ,call_num : ""
+        ,interest : ""
+    }
+
+    Return
+    {
+        SignUpSucess : true or false
+        sucessCode : 200
+        id duplications errorCode : 552 (id 중복체크)
+        id null errorCode : 551 (id 비워짐)
+    }
+
+3. MemberInfo logic
+    Paramater @RequestParams
+    {
+        id : ""
+    }
+
+    Return
+    {
+        MemberInfoSucess : true or false
+        sucessCode : 200
+        id identification errorCode : 550 (회원과 요청 id 동일성 확인)
+        HugoUserInfoModel 리턴 
+    }
+
+3-1 . MemberInfo modify logic
+    Paramater @RequestParams
+    {
+        pwd : ""
+    }
+
+    Return
+    {
+        MemberInfoModifySucess : true or false
+        sucessCode : 200
+        pwd errorCode : 511 (비밀번호 에러)
+        회원 정보 수정 후 내용 Update
+    }
+
+4. MemberResign logic
+    Paramater @RequestParams
+    {
+        pwd : ""
+    }
+
+    Return
+    {
+        MemberResignSucess : true or false
+        sucessCode : 200
+        pwd errorCode : 511 (비밀번호 에러)
+        회원 정보 Delete 
+    }
+
+게시글 조회수 증가
+    parameter : 조회하는 id , 게시글 번호
+    조회하는 id 가 글쓴이와 같다면 증가하지 않음
+    리턴값 : sucessCode = 200
+           id 같음 = 
+
+게시글 좋아요 증가 / 감소
+    해당 아이디로 게시글 증가 를 했는지 확인
+    해당 아이디로 증가 되있다면 like_yn = 1 / 재 클릭시 0 + countDown
+    해당 아이디로 증가한적이 없다면 like_yn = 0 / 클릭시 1 + CountUp
+
+    좋아요 클릭시 - id 와 boardIdx 받아옴 (post)
+    해당 id와 boarIdx 로 hugo_board_like가 있는지 조회
+    없다면 hugo_board_like 생성 값입력 - like_yn 1 , 받은 boardidx와 id 값
+    있다면 like_yn이 0 인지 1인지 조회
+    1 이라면 countDown 호출
+    0 이라면 countUp 호출
+
+페이징 구현
+
+필요한 API
+
+1. 리스트를 불러오는 API (인자 값은 startPage, (가변 게시판 10개씩 볼건지 / 30개/ 50개)listCount) - 0,
+    paging list count - item per page
+
+2. 리스트 하단 페이지 넘버를 보여주는 API 
+
+리스트를 불러오는 API ::
+    param > startPage(int), listCount(int)
+    logic > if 게시판 개수가 100 1페이지에 리스트 갯수가 10개면 : startPage 1, listCount 10
+        - 0 ~ 9 까지 (1 ~ 10 까지면 안됨!!) 뽑고 0 ~ 9 까지의 쿼리 파라미터가 
+          limit 함수에 들어갈 수 있도록 로직을 구현 
+        1 > 0 ~ 9
+        2 > 10 ~ 19
+        3 > 20 ~ 29
+        페이징 하단의 숫자!
+        ...
+
+        1 - 1 = 0
+        (startPage -1) * listCount 
+        ex) 3 page 10 ea 단위
+            - 20
+            5 page 5 ea 단위
+            - 20
+
+    db query > limit 함수 구현 (mySQL) (ex > select * from board limit ~~ )
+
+    - 검색 mysql limit 페이징 
+
+리스트 하단 페이지 넘버를 보여주는 API ::
+    select count(*) from ...
+    if 게시판 개수가 100 listCount가 10개씩 뽑을때 필요한 하단 넘버는 1~10번까지 이고 
+    이걸 뽑아내는 로직 구현 
+
+    list 구현
+    for(int i=0; ~~~) {
+        스타트 페이지 넘버 : 1, 2, 3, 4
+    }
+
+
+
+경로일때는 @RequestParam 아니고 @PathVariable
+여러가지 인자값 JSON 으로 받는것이 더 좋음 url path 가 제한이 있기때문에
+중요한 것들만 사용! RequestBody 로 변경 
+
+로그인 - 회원가입 - 회원정보수정 순으로 만들어보기 
+
+데이터 requestBody 
+
+startPage : 0
+listNumber : 5
+
+limit 0,5
+
+startPage : 1
+listNumber : 5
+
+limit 5,5
+
+// startPage,Listnum 를 API 와 같이 가져와라!! 
+
+
+login
+session - sessionStorage
+cookie 
+localStorage 
+    - localStorage expiretime........................................
